@@ -1,7 +1,7 @@
 <template lang="">
-    <div class="block w-screen h-screen">
+    <div class="block w-full h-screen overscroll-none">
 
-        <div class="flex w-screen h-12 p-2 text-white bg-gray-800 header-not-sr-only">
+        <div class="flex w-full h-12 p-2 text-white bg-gray-800 header-not-sr-only">
             <div class="flex w-2/12">
                 <div class="w-1/4">
                     <el-button type="primary" text @click="open_menu">
@@ -9,7 +9,7 @@
                     </el-button>
                 </div>
                 <div class="w-3/4 p-1 text-left" >
-                    Home
+                    {{ navTitle }}
                 </div>
             </div>
             <div class="w-7/12">
@@ -27,8 +27,8 @@
             </div>
         </div>
 
-        <div class="w-screen h-screen bg-white header-nav ">
-            <router-view></router-view>
+        <div class="w-full h-screen bg-white header-nav ">
+            <router-view @response="(msg) => navTitle = msg" ></router-view>
         </div>
 
         <el-drawer v-model="drawer" title="I am the title" size="20%" :with-header="false" :direction="direction">
@@ -44,6 +44,9 @@
 import MenuIcon from 'vue-material-design-icons/Menu.vue';
 import LogoutIcon  from 'vue-material-design-icons/Logout.vue';
 import { ElNotification } from 'element-plus';
+import { useRouter } from 'vue-router';
+
+console.log(window.user);
 
 export default {
     data() {
@@ -51,7 +54,8 @@ export default {
             temp: null,
             drawer: false,
             direction: 'ltr',
-            user: this.$store.getters.userInfo ? this.$store.getters.userInfo.username : '',
+            user: window.user ? window.user.username : '',
+            navTitle: 'home'
         }
     },
     methods: {

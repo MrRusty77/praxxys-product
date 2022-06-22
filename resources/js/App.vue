@@ -9,7 +9,7 @@
 
         mounted() {
             this.$store.commit('setAuthUser', window.auth_user);
-
+            
             if( window.auth_user ) 
                 this.$store.commit('authenticateUser', window.user);
 

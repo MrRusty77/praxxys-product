@@ -6,6 +6,8 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
+import VuePaginationTw from "vue-pagination-tw";
+
 import router from './router';
 import store from './store';
 
@@ -34,7 +36,7 @@ app.config.globalProperties.$axios = axios;
 
 app.use(store);
 app.use(router);
-// app.use(VuePaginationTw);
+app.use(VuePaginationTw);
 app.use(ElementPlus);
 
 app.mount('#app');

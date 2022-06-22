@@ -33,6 +33,8 @@ class CategoriesController extends Controller
 
         if( isset( $data['keyword'] ) )
 		{
+            $keyword = $data['keyword'];
+
             $categories->where( function( $query ) use ( $keyword ) {
                 $query->orWhere('c.name', 'LIKE', "%$keyword%");
             });
