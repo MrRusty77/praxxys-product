@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Validator;
+
 class CategoriesController extends Controller
 {
     /**
@@ -46,15 +48,14 @@ class CategoriesController extends Controller
 
         $val = self::validateInput( $data->all() );
 
-        if( !isset( $val['error'] ) )  
+        if( isset( $val['error'] ) )  
             return response()->json( (array) $val, 401 );
 
-        if( $data['category_id'] == 0 )
-            return response()->json( Categories::addCategories( $data->all() ) );
+        if( isset( $data['category_id'] ) )
+            return response()->json( Categories::updateCategory( $data->all() ) );
         else
-            return response()->json( Categories::updateCategories( $data->all() ) );
-         
-
+            return response()->json( Categories::createCategory( $data->all() ) );
+        
     }
 
     public static function validateInput( $data )

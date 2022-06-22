@@ -39,6 +39,7 @@ export default new Vuex.Store({
             return state.authenticated;
         },
         userInfo(state) {
+            console.log( state.user_info );
             return state.user_info;
         },
         userToken(state) {

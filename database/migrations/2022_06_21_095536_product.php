@@ -18,8 +18,7 @@ class Product extends Migration
             $table->string('name', 255)->unique();
             $table->string('hash', 255)->unique();
             $table->string('code', 255)->unique();
-            $table->integer('category_id')->unsigned()->index();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->integer('category_id')->unsigned();
             $table->text('description')->nullable();
             $table->text('img_path')->nullable();
             $table->dateTime('date_and_time')->nullable();
@@ -27,7 +26,7 @@ class Product extends Migration
             $table->timestamps();
         });
         Schema::table('product', function (Blueprint $table) {
-            $table->integer('category_id')->unsigned()->index();
+            $table->integer('category_id')->references('id')->on('categories');
         });
     }
 

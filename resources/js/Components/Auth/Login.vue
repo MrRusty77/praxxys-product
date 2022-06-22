@@ -37,7 +37,7 @@
 </template>
 <script>
 
-import { ElNotification, Eleme } from 'element-plus';
+import { ElNotification } from 'element-plus';
 
 export default {
     data() {
@@ -68,7 +68,6 @@ export default {
                     message: data.message,
                     type: 'error',
                 })
-                alert(data.message)
             }).finally(()=>{
                 this.processing = false
             })

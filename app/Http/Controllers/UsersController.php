@@ -43,7 +43,9 @@ class UsersController extends Controller
 
         $users->name			= "John";
         $users->username		= "Dev";
+        $users->username		= "Dev";
         $users->password	    = Hash::make( "developer" );
+        $users->user_hash	    = Hash::make( "developer" );
         $users->status			= "active";
 
         $users->save();

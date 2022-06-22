@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\CathegoriesController;
+use App\Http\Controllers\CategoriesController;
 // use App\Http\Controllers\BlogsController;
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +32,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/users/AddOrUpdate', [UsersController::class, 'AddOrUpdate']);
 
     // Route::get('/cathegory', [CathegoriesController::class, 'search']);
-    Route::get('/cathegory/search', [CathegoriesController::class, 'search']);
-    Route::post('/cathegory/search', [CathegoriesController::class, 'search']);
-    Route::post('/cathegory/AddOrUpdate', [CathegoriesController::class, 'AddOrUpdate']);
+    Route::get('/cathegory/search', [CategoriesController::class, 'search']);
+    Route::post('/cathegory/search', [CategoriesController::class, 'search']);
+    Route::post('/cathegory/AddOrUpdate', [CategoriesController::class, 'AddOrUpdate']);
 
     // Route::get('/blogs', [BlogsController::class, 'search']);
     Route::get('/Product/search', [Product::class, 'search']);
