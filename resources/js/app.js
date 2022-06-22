@@ -1,20 +1,38 @@
-import './bootstrap';
+import { createApp } from 'vue';
+import axios from 'axios'
 
-import { createApp, h } from 'vue';
-import { createInertiaApp } from '@inertiajs/inertia-vue3';
-import { InertiaProgress } from '@inertiajs/progress';
+import Equal from 'equal-vue';
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+import router from './router';
+import store from './store';
 
-createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) => require(`./Pages/${name}.vue`),
-    setup({ el, app, props, plugin }) {
-        return createApp({ render: () => h(app, props) })
-            .use(plugin)
-            .mixin({ methods: { route } })
-            .mount(el);
-    },
+import 'equal-vue/dist/style.css';
+import "vue-pagination-tw/styles"; 
+
+// import VuePaginationTw from "vue-pagination-tw";
+
+import App from './App.vue';
+
+router.beforeEach((to, from, next) => {
+
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+      if(!store.getters.isAuthenticated) next({ path: '/login' });
+      else next();
+   } else {
+      next();
+   }
+
 });
 
-InertiaProgress.init({ color: '#4B5563' });
+const app = createApp(App);
+
+app.config.globalProperties.$axios = axios;
+
+app.use(store);
+app.use(router);
+app.use(VuePaginationTw);
+app.use(Equal);
+
+app.mount('#app');
+
+

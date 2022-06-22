@@ -8,20 +8,31 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         <!-- Scripts -->
-        @routes
-        <script src="{{ mix('js/app.js') }}" defer></script>
-        @inertiaHead
+        
     </head>
-    <body class="font-sans antialiased">
-        @inertia
+    <body>
 
-        @env ('local')
-            <script src="http://localhost:8080/js/bundle.js"></script>
-        @endenv
+        <div id="app" class="w-full h-full" ></div>
+
+        <script>
+            window.auth_user = {{ !!Auth::check(); }};
+            @if (Auth::check())
+                window.user = {
+                    username: '{{ Auth::user()->username }}',
+                    first_name: '{{ Auth::user()->first_name }}',
+                    last_name: '{{ Auth::user()->last_name }}',
+                    tocken: null,
+                };
+            @endif
+        </script>
+
+        <script src="{{ mix('js/app.js') }}" defer></script>
+
     </body>
 </html>
