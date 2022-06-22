@@ -28,7 +28,7 @@
 
         </div>
         <div class="flex-none w-5/12">
-            <VuePaginationTw 
+            <!-- <VuePaginationTw 
                 class="float-right"
                 :totalItems="pagination.last_page"
                 :currentPage="pagination.current_page"
@@ -37,7 +37,7 @@
                 :goButton="false"
                 styled="centered"
                 v-if="!processing"
-            />
+            /> -->
         </div>
     </div>
 

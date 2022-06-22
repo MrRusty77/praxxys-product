@@ -16,14 +16,14 @@
 
         </div>
 
-        <div class="flex-none w-10/12 p-2  bg-white">
+        <div class="flex-none w-10/12 p-2 bg-white">
             <router-view></router-view>
         </div>
     </div>
 </template>
 <script>
 
-import BlogList from './Example.vue';
+// import BlogList from './Example.vue';
 // import Categories from './Pages/Categories.vue';
 
 export default {
@@ -36,7 +36,7 @@ export default {
         
     },
     components: {
-        'my-table': BlogList, 
+        // 'my-table': BlogList, 
         // 'categories': Categories, 
     }
 }

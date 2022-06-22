@@ -1,13 +1,14 @@
 import { createApp } from 'vue';
 import axios from 'axios'
 
-import Equal from 'equal-vue';
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 
 import router from './router';
 import store from './store';
 
-import 'equal-vue/dist/style.css';
-import "vue-pagination-tw/styles"; 
+// import 'equal-vue/dist/style.css';
+// import "vue-pagination-tw/styles"; 
 
 // import VuePaginationTw from "vue-pagination-tw";
 
@@ -30,8 +31,8 @@ app.config.globalProperties.$axios = axios;
 
 app.use(store);
 app.use(router);
-app.use(VuePaginationTw);
-app.use(Equal);
+// app.use(VuePaginationTw);
+app.use(ElementPlus);
 
 app.mount('#app');
 

@@ -2,7 +2,7 @@ import { createWebHashHistory, createRouter } from "vue-router";
 
 import Login from "../components/Auth/Login.vue";
 import Home from "../Components/Main.vue";
-import HelloWorld from "../Components/Example.vue";
+// import HelloWorld from "../Components/Example.vue";
 import Categories from "../Components/Pages/Categories.vue";
 
 const routes = [
@@ -18,10 +18,10 @@ const routes = [
     alias: '/home',
     meta: { requiresAuth: true },
     children: [
-      {
-        path: 'hello',
-        component: HelloWorld,
-      },
+      // {
+      //   path: 'hello',
+      //   component: HelloWorld,
+      // },
       {
         path: 'categories',
         component: Categories,
