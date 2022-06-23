@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/users/search', [UsersController::class, 'search']);
     Route::post('/users/search', [UsersController::class, 'search']);
     Route::post('/users/AddOrUpdate', [UsersController::class, 'AddOrUpdate']);
-    Route::post('/users/remove', [UsersController::class, 'removeCategory']);
+    Route::post('/users/remove', [UsersController::class, 'removeUser']);
 
     // Route::get('/cathegory', [CathegoriesController::class, 'search']);
     Route::get('/category/search', [CategoriesController::class, 'search']);

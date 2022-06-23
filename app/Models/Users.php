@@ -47,7 +47,7 @@ class Users extends Authenticatable
 
         return [ 
             "error" => null,
-            "message" => "Successfully added " . $data['first_name'],
+            "message" => "Successfully added " . $data['name'],
         ];
     }
 
@@ -74,6 +74,33 @@ class Users extends Authenticatable
 			return [ 
 				"error" => null,
 				"message" => "Successfully updated " . $data['name'],
+			];
+
+		}
+		catch(Exception $e)
+		{
+			return [ 
+				"error" => [
+					"server" => "Unable to save User data, Please try again later"
+				],
+				"message" => "Server error"
+			];
+
+		}
+
+	}
+
+    public static function removeUser( $data )
+	{
+		try
+		{
+			$users = Users::where( 'id', '=' , $data['user_hash'] );
+			
+			$users->update( [ 'status' => 'delete' ] );
+
+			return [ 
+				"error" => null,
+				"message" => "Successfully remove " . $data['name'],
 			];
 
 		}

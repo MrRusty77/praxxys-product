@@ -7,9 +7,9 @@
             <table class="w-full bg-white border-none rounded table-auto border-spacing-3">
                 <thead>
                     <tr>
-                        <th class="p-2 ">Name</th>
-                        <th class="p-2 ">Username</th>
-                        <th class="p-2 ">Date created</th>
+                        <th class="p-2 text-left">Name</th>
+                        <th class="p-2 text-left">Username</th>
+                        <th class="p-2 text-left">Date created</th>
                         <th class="p-2 pr-8 text-right">Actions</th>
                     </tr>
                 </thead>
@@ -53,7 +53,7 @@
 
     <el-dialog v-model="openForm" :title="action + ' User'" width="40%" :close-on-click-modal="clearform">
         <el-form :label-position="top" label-width="100px" :model="formdata" :rules="rules">
-
+  
             <el-form-item label="Name" prop="name">
                 <el-input v-model="v$.formdata.name.$model" type="text" placeholder="Name" autocomplete="off"
                     error="v$.formdata.name.$error" />
@@ -94,7 +94,7 @@
         <template #footer class="bg-slate-200">
             <span class="dialog-footer ">
                 <el-button @click="clearform()">Cancel</el-button>
-                <el-button type="success" @click="submitForm()" :disabled="v$.$error && true" :loading="saving">Save
+                <el-button type="success" @click="submitForm(  )" :disabled="v$.$error" :loading="saving">Save
                 </el-button>
             </span>
         </template>
@@ -103,9 +103,13 @@
 </template>
 <script >
 import moment from 'moment';
+
+import { reactive } from 'vue'
+import useVuelidate from '@vuelidate/core'
 import { required, minLength, maxLength, sameAs } from '@vuelidate/validators';
-import { useVuelidate } from '@vuelidate/core';
+
 import VueAdsPagination from 'vue-ads-pagination';
+
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import EditIcon from 'vue-material-design-icons/Pencil.vue';
@@ -113,7 +117,42 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
 
 export default {
-    setup: () => ({ v$: useVuelidate() }),
+    setup() {
+        const state = reactive({
+            formdata: {
+                name: '',
+                username: '',
+                password: '',
+                confirmPassword: '',
+            },
+        })
+
+        const rules = {
+            formdata: {
+                name: {
+                    required,
+                    minLength: minLength(2),
+                },
+                username: {
+                    required,
+                    minLength: minLength(2),
+                    maxLength: maxLength(25),
+                },
+                password: {
+                    required,
+                    minLength: minLength(8),
+                },
+                confirmPassword: {
+                    required,
+                    minLength: minLength(8),
+                },
+            }
+        }
+
+        const v$ = useVuelidate(rules, state)
+
+        return { state, v$ }
+    },
     created() {
         this.$emit('response', 'Users'),
             this.$emit('search', true)
@@ -144,26 +183,6 @@ export default {
                 password: '',
                 confirmPassword: '',
             },
-        }
-    },
-    validations() {
-        return {
-            formdata: {
-                name: {
-                    required,
-                    minLength: minLength(2),
-                },
-                username: {
-                    required,
-                    minLength: minLength(2),
-                    maxLength: maxLength(25),
-                },
-                password: {
-                    required,
-                    minLength: minLength(8),
-                },
-                confirmPassword: sameAs('password'),
-            }
         }
     },
     validationConfig: {
@@ -214,6 +233,7 @@ export default {
             return moment(value).add(+8, 'hours').format('DD MM YYYY hh:mm');
         },
         async save(form) {
+            console.table( form );
             this.saving = true;
             await this.$axios.post('api/users/AddOrUpdate', form)
                 .then(({ data }) => {
@@ -270,7 +290,7 @@ export default {
             this.v$.$validate() // checks all inputs
 
             if (!this.v$.$error) { // if ANY fail validation
-                this.save(this.formdata);
+                this.save(this.v$.formdata.$model);
             } else {
                 alert('Form successfully submitted.')
             }

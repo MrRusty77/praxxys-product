@@ -58,14 +58,13 @@ class UsersController extends Controller
 
         $val = self::validateInput( $data->all() );
 
-        if( !isset( $val['error'] ) )  
+        if( isset( $val['error'] ) )  
             return response()->json( (array) $val, 401 );
-
 
         if( isset( $data['user_hash'] ) )
             return response()->json( Users::updateUser( $data->all() ) );
         else
-            return response()->json( Users::addUser( $data->all() ) );
+            return response()->json( Users::createUser( $data->all() ) );
          
 
     }
@@ -88,11 +87,11 @@ class UsersController extends Controller
         $messages['password.same']		= 'Password does not match';
         $messages['password.min']		= 'Password must be at least 8 charaters!';
 
-        $messages['conf_password.required']	= 'Please Enter Confirmation Password!';
-        $messages['conf_password.same']		= 'Password does not match!';
+        $messages['confirmPassword.required']	= 'Please Enter Confirmation Password!';
+        $messages['confirmPassword.same']		= 'Password does not match!';
 
-        $validate_data['password']		= 'required|same:conf_password|min:8|max:255';
-        $validate_data['conf_password']	= 'required|same:password|min:8|max:255';
+        $validate_data['password']		= 'required|same:confirmPassword|min:8|max:255';
+        $validate_data['confirmPassword']	= 'required|same:password|min:8|max:255';
 
 		$validator = Validator::make( $data, $validate_data, $messages );
 
@@ -102,6 +101,28 @@ class UsersController extends Controller
 			return true;
 		}
 
+	}
+
+    public static function removeUser( Request $data )
+	{
+        $val = self::validateRemoveUserInput( $data->all() );
+
+        if( !isset( $val['error'] ) )  
+            return Users::removeUser( $data->all() );	
+        else 
+            response()->json( (array) $val, 404 );
+
+	}
+
+	public static function validateRemoveUserInput( $data )
+	{
+		$validator = Validator::make( $data, ['user_hash' => 'required'], ['user_hash.required' => 'Please select cathegory'] );
+
+		if( $validator->fails() ) {
+			return $validator->validate();
+		} else {
+			return true;
+		}
 	}
 
 }

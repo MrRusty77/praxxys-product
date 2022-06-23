@@ -69,9 +69,10 @@
 
 </template>
 <script >
-
+import { reactive } from 'vue'  
+import useVuelidate from '@vuelidate/core'
 import { required, minLength, maxLength } from '@vuelidate/validators';
-import { useVuelidate } from '@vuelidate/core';
+
 import VueAdsPagination from 'vue-ads-pagination';
 import { ElMessage, ElMessageBox } from 'element-plus'
 
@@ -80,7 +81,27 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
 
 export default {
-    setup: () => ({ v$: useVuelidate() }),
+    setup() {
+        const state = reactive({
+            formdata: {
+                name: '',
+            },
+        })
+
+        const rules = {
+            formdata: {
+                name: {
+                    required,
+                    minLength: minLength(2),
+                    maxLength: maxLength(255),
+                }
+            }
+        }
+
+        const v$ = useVuelidate(rules, state)
+
+        return { state, v$ }
+    },
     created() {
         this.$emit('response', 'Categories'),
         this.$emit('search', true)
@@ -108,17 +129,6 @@ export default {
             formdata: {
                 name: '',
             },
-        }
-    },
-    validations() {
-        return {
-            formdata: {
-                name: { 
-                    required,
-                    minLength: minLength(2),
-                    maxLength: maxLength(255),
-                }
-            }
         }
     },
     validationConfig: {
