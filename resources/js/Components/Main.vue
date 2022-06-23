@@ -13,8 +13,19 @@
                 </div>
             </div>
             <div class="w-7/12">
-                <input v-model="keyword" type="text" label="search" name="search" autocomplete="off"
-                    class="flex-none w-full px-2 py-1 text-black border-none rounded focus-visible:border-transparent focus-visible:outline-0" v-show="searchInput" />
+                <div class="bg-white flex rounded hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-blue-500 w-6/12 mx-auto">                
+                    <search-icon class="text-sky-600 p-1 rounded"/>
+                    <input 
+                        v-model="keyword" 
+                        v-show="searchInput" 
+                        type="text" 
+                        label="search" 
+                        name="search" 
+                        autocomplete="off" 
+                        placeholder="Search"
+                        class="flex-none w-fit px-2 py-1 text-black border-none rounded border-transparent focus:border-transparent focus:ring-0" 
+                    />
+                </div>
             </div>
             <div class="flex w-3/12">
                 <div class="w-3/4 p-1 text-right" >
@@ -28,12 +39,13 @@
             </div>
         </div>
 
-        <div class="w-full h-screen bg-white header-nav ">
+        <div class="w-full h-fit header-nav ">
             <router-view @response="(msg) => navTitle = msg" @search="( search ) => searchInput = search" :keywordSearch="keyword" ></router-view>
         </div>
 
         <el-drawer v-model="drawer" title="I am the title" size="20%" :with-header="false" :direction="direction">
             <span>Hi there!</span>
+            <router-link to="/users">Users</router-link>
             <router-link to="/categories">Categories</router-link>
         </el-drawer>
 
@@ -44,6 +56,7 @@
 
 import MenuIcon from 'vue-material-design-icons/Menu.vue';
 import LogoutIcon  from 'vue-material-design-icons/Logout.vue';
+import SearchIcon from 'vue-material-design-icons/Magnify.vue';
 import { ElNotification } from 'element-plus';
 import { useRouter } from 'vue-router';
 
@@ -55,7 +68,7 @@ export default {
             direction: 'ltr',
             user: window.user ? window.user.username : '',
             navTitle: 'home',
-            keyword: "hello",
+            keyword: "",
         }
     },
     methods: {
@@ -84,6 +97,7 @@ export default {
     components: {
         'menu-icon': MenuIcon, 
         'logout-icon': LogoutIcon, 
+        'search-icon': SearchIcon, 
     }
 }
 </script>

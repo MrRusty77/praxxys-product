@@ -40,7 +40,9 @@ class CategoriesController extends Controller
             });
 		}
 
-        return $categories->paginate(10);
+        return $categories
+            ->where( 'c.status', '=', 'active' )
+            ->paginate(10);
         // return $users->get();
 			
     }
@@ -79,5 +81,27 @@ class CategoriesController extends Controller
 		else 
 			return true;
 		
+	}
+
+    public static function removeCategory( Request $data )
+	{
+        $val = self::validateRemoveCategoryInput( $data->all() );
+
+        if( !isset( $val['error'] ) )  
+            return Categories::removeCategory( $data->all() );	
+        else 
+            response()->json( (array) $val, 404 );
+
+	}
+
+	public static function validateRemoveCategoryInput( $data )
+	{
+		$validator = Validator::make( $data, ['category_id' => 'required'], ['category_id.required' => 'Please select cathegory'] );
+
+		if( $validator->fails() ) {
+			return $validator->validate();
+		} else {
+			return true;
+		}
 	}
 }

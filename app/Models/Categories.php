@@ -73,4 +73,32 @@ class Categories extends Model
 		}
 
 	}
+
+	public static function removeCategory( $data )
+	{
+		try
+		{
+			$users = Categories::where( 'id', '=' , $data['category_id'] );
+			
+			$users->update( [ 'status' => 'delete' ] );
+
+			return [ 
+				"error" => null,
+				"message" => "Successfully remove " . $data['name'],
+			];
+
+		}
+		catch(Exception $e)
+		{
+			return [ 
+				"error" => [
+					"server" => "Unable to save User data, Please try again later"
+				],
+				"message" => "Server error"
+			];
+
+		}
+
+	}
+
 }

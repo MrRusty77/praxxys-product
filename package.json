@@ -30,9 +30,11 @@
         "@vuelidate/core": "^2.0.0-alpha.41",
         "@vuelidate/validators": "^2.0.0-alpha.29",
         "element-plus": "^2.2.6",
+        "moment": "^2.29.3",
         "vue-ads-pagination": "^2.1.7",
         "vue-axios": "^3.4.1",
         "vue-material-design-icons": "^5.0.0",
+        "vue-moment": "^4.1.0",
         "vue-pagination-tw": "^0.1.2",
         "vue-router": "^4.0.16",
         "vuex": "^4.0.2"

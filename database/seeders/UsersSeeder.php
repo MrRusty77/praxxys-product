@@ -6,11 +6,10 @@ use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\Hash;
 
-use App\Models\Categories;
 use App\Models\Users;
 
 
-class DatabaseSeeder extends Seeder
+class UsersSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -19,34 +18,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Categories::create(['name' => 'Category 1']);
-        Categories::create(['name' => 'Category 2']);
-        Categories::create(['name' => 'Category 3']);
-        Categories::create(['name' => 'Category 4']);
-        Categories::create(['name' => 'Category 5']);
-        Categories::create(['name' => 'Category 6']);
-        Categories::create(['name' => 'Category 7']);
-        Categories::create(['name' => 'Category 8']);
-        Categories::create(['name' => 'Category 9']);
-        Categories::create(['name' => 'Category 10']);
-        Categories::create(['name' => 'Category 11']);
-        Categories::create(['name' => 'Category 12']);
-        Categories::create(['name' => 'Category 13']);
-        Categories::create(['name' => 'Category 14']);
-        Categories::create(['name' => 'Category 15']);
-        Categories::create(['name' => 'Category 16']);
-        Categories::create(['name' => 'Category 17']);
-        Categories::create(['name' => 'Category 18']);
-        Categories::create(['name' => 'Category 19']);
-        Categories::create(['name' => 'Category 20']);
-
-        Users::create([ 
-            'name' => 'dev',
-            'username' => 'developer',
-            'password' =>  Hash::make('developer'),
-            'user_hash' => Hash::make( 'dev'.'developer' ),
-        ]);
-
         Users::create([ 
             'name' => 'user 1',
             'username' => 'user1',
@@ -55,19 +26,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Users::create([ 
-            'name' => 'user 2',
+            'name' => 'user2',
             'username' => 'user2',
             'password' =>  Hash::make('user2'),
             'user_hash' => Hash::make( 'user 2'.'developer'.date('Y-m-d H:i:s') ),
         ]);
         Users::create([ 
-            'name' => 'user 3',
+            'name' => 'user3',
             'username' => 'user3',
             'password' =>  Hash::make('user3'),
             'user_hash' => Hash::make( 'user3'.'developer'.date('Y-m-d H:i:s') ),
         ]);
         Users::create([ 
-            'name' => 'user 4',
+            'name' => 'user4',
             'username' => 'user4',
             'password' =>  Hash::make('user4'),
             'user_hash' => Hash::make( 'user4'.'developer'.date('Y-m-d H:i:s') ),
@@ -78,12 +49,7 @@ class DatabaseSeeder extends Seeder
             'password' =>  Hash::make('user5'),
             'user_hash' => Hash::make( 'user5'.'developer'.date('Y-m-d H:i:s') ),
         ]);
-        Users::create([ 
-            'name' => 'user5',
-            'username' => 'user5',
-            'password' =>  Hash::make('user5'),
-            'user_hash' => Hash::make( 'user5'.'developer'.date('Y-m-d H:i:s') ),
-        ]);
+
         Users::create([ 
             'name' => 'user6',
             'username' => 'user6',

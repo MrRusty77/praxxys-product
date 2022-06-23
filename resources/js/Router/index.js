@@ -4,6 +4,7 @@ import Login from "../components/Auth/Login.vue";
 import Home from "../Components/Main.vue";
 // import HelloWorld from "../Components/Example.vue";
 import Categories from "../Components/Pages/Categories.vue";
+import Users from "../Components/Pages/Users.vue";
 
 const routes = [
   {
@@ -18,10 +19,10 @@ const routes = [
     alias: '/home',
     meta: { requiresAuth: true },
     children: [
-      // {
-      //   path: 'hello',
-      //   component: HelloWorld,
-      // },
+      {
+        path: 'users',
+        component: Users,
+      },
       {
         path: 'categories',
         component: Categories,

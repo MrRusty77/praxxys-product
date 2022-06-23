@@ -29,12 +29,15 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     // Route::get('/users', [UsersController::class, 'search']);
     Route::get('/users/search', [UsersController::class, 'search']);
+    Route::post('/users/search', [UsersController::class, 'search']);
     Route::post('/users/AddOrUpdate', [UsersController::class, 'AddOrUpdate']);
+    Route::post('/users/remove', [UsersController::class, 'removeCategory']);
 
     // Route::get('/cathegory', [CathegoriesController::class, 'search']);
-    Route::get('/cathegory/search', [CategoriesController::class, 'search']);
-    Route::post('/cathegory/search', [CategoriesController::class, 'search']);
-    Route::post('/cathegory/AddOrUpdate', [CategoriesController::class, 'AddOrUpdate']);
+    Route::get('/category/search', [CategoriesController::class, 'search']);
+    Route::post('/category/search', [CategoriesController::class, 'search']);
+    Route::post('/category/AddOrUpdate', [CategoriesController::class, 'AddOrUpdate']);
+    Route::post('/category/remove', [CategoriesController::class, 'removeCategory']);
 
     // Route::get('/blogs', [BlogsController::class, 'search']);
     Route::get('/Product/search', [Product::class, 'search']);
