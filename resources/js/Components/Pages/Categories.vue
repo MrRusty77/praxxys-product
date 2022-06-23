@@ -1,48 +1,37 @@
 <template >
-    <div class="w-full p-2 rounded-full">
-        <div class="flex w-full p-2 rounded-full bg-slate-300">
-            <div class="flex-1 p-1 w-50">
-                <input v-model="keyword" type="text" label="search" name="search" autocomplete="off"
-                    class="flex-none w-full px-2 py-1 border-none rounded-full focus-visible:border-transparent focus-visible:outline-0" />
-            </div>
-            <div class="flex-1 p-1 w-50">
-                <it-button type="primary" icon="search" round block @click="search(pagination.current_page)">search
-                </it-button>
-            </div>
-        </div>
 
-        <div class="w-full p-2 m-2 rounded-lg bg-slate-300 h-fit">
-            <div class="flex w-full py-2 my-2 rounded-full hover:drop-shadow-md bg-slate-50">
-                <div class="flex-none w-11/12 pl-3 text-base">
-                    Category Name
-                </div>
-                <div class="flex-none w-1/12 text-center">
-                    Actions
-                </div>
-            </div>
-            <div v-for="(value, key) in pagination.data" :key="value.cathegory_id"
-                class="flex w-full py-2 my-2 rounded-full hover:drop-shadow-md bg-slate-50">
-                <div class="flex-none w-11/12 pl-3 text-base">
-                    {{ value.name }}
-                </div>
-                <div class="flex-none w-1/12">
-                    <div class="flex float-right">
-                        <el-button text @click="addOrEdit('Edit', value)">
-                            <edit-icon />
-                        </el-button>
-                        <el-button text @click="remove(value)">
-                            <delete-icon />
-                        </el-button>
-                    </div>
-                </div>
-            </div>
+    <div class="w-full p-2 rounded-full">
+    
+        <div class="w-full p-2 m-2 rounded bg-slate-300 h-fit">
+            <table class="w-full bg-white border-none rounded table-auto border-spacing-3">
+                <thead>
+                    <tr>
+                        <th class="p-2">Category Name</th>
+                        <th class="p-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="p-2 border border-solid rounded hover:border-sky-500 hover:border-2"
+                        v-for="(value, key) in pagination.data" :key="value.cathegory_id">
+                        <td class="p-2"> {{ value.name }}</td>
+                        <td class="float-right">
+                            <el-button text @click="addOrEdit('Edit', value)">
+                                <edit-icon />
+                            </el-button>
+                            <el-button text @click="remove(value)">
+                                <delete-icon />
+                            </el-button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="flex flex-none w-full">
             <div class="flex-none w-5/12">
                 <el-button type="primary" :icon="Edit" @click="addOrEdit('Add')" round>Add Cathegory</el-button>
             </div>
-            <div class="flex-none w-5/12">
+            <div class="flex-none float-right w-5/12">
                 <VuePaginationTw class="float-right" :totalItems="pagination.total"
                     :currentPage="pagination.current_page" :perPage="pagination.per_page" @pageChanged="search"
                     :goButton="false" styled="centered" borderActiveColor="border-red-500"
@@ -86,7 +75,11 @@ import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 export default {
     setup: () => ({ v$: useVuelidate() }),
     created() {
-        this.$emit('response', 'Categories')
+        this.$emit('response', 'Categories'),
+        this.$emit('search', true)
+    },
+    props: {
+        keywordSearch: String
     },
     data() {
         return {
@@ -97,7 +90,7 @@ export default {
             processing: false,
             saving: false,
             openForm: false,
-            keyword: '',
+            keyword: this.keywordSearch,
             action: 'Add',
             formdata: {
                 name: '',
@@ -127,8 +120,10 @@ export default {
             
             var url = '/api/cathegory/search?page=' + this.pagination.current_page;
 
-            if( this.keyword )
-                url+= '&keyword='+ this.keyword;
+            if( this.keywordSearch )
+                url+= '&keyword='+ this.keywordSearch;
+
+            console.log(this.keywordSearch );
 
             await this.$axios.post(url, this.keyword)
             .then( ({ data }) => {

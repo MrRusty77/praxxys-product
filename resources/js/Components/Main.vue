@@ -13,7 +13,8 @@
                 </div>
             </div>
             <div class="w-7/12">
-                 <!-- <el-input v-model="input" placeholder="Please input" /> -->
+                <input v-model="keyword" type="text" label="search" name="search" autocomplete="off"
+                    class="flex-none w-full px-2 py-1 text-black border-none rounded focus-visible:border-transparent focus-visible:outline-0" v-show="searchInput" />
             </div>
             <div class="flex w-3/12">
                 <div class="w-3/4 p-1 text-right" >
@@ -28,7 +29,7 @@
         </div>
 
         <div class="w-full h-screen bg-white header-nav ">
-            <router-view @response="(msg) => navTitle = msg" ></router-view>
+            <router-view @response="(msg) => navTitle = msg" @search="( search ) => searchInput = search" :keywordSearch="keyword" ></router-view>
         </div>
 
         <el-drawer v-model="drawer" title="I am the title" size="20%" :with-header="false" :direction="direction">
@@ -46,8 +47,6 @@ import LogoutIcon  from 'vue-material-design-icons/Logout.vue';
 import { ElNotification } from 'element-plus';
 import { useRouter } from 'vue-router';
 
-console.log(window.user);
-
 export default {
     data() {
         return {
@@ -55,7 +54,8 @@ export default {
             drawer: false,
             direction: 'ltr',
             user: window.user ? window.user.username : '',
-            navTitle: 'home'
+            navTitle: 'home',
+            keyword: "hello",
         }
     },
     methods: {
