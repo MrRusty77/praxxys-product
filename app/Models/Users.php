@@ -31,6 +31,9 @@ class Users extends Authenticatable
         if( isset( $data['username'] ) )
             $users->where( 'u.username', '=', $data['username'] );
 
+        if( isset( $data['user_hash'] ) )
+            $users->where( 'u.user_hash', '=', $data['user_hash'] );
+
         return $users;
     }
 
@@ -94,7 +97,7 @@ class Users extends Authenticatable
 	{
 		try
 		{
-			$users = Users::where( 'id', '=' , $data['user_hash'] );
+			$users = Users::where( 'user_hash', '=' , $data['user_hash'] );
 			
 			$users->update( [ 'status' => 'delete' ] );
 

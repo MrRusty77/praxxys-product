@@ -20,19 +20,24 @@ class UsersController extends Controller
 
 		$users->select( 
 			'u.name',
+			'u.user_hash',
 			'u.username',
 			'u.created_at',
 		);
 
         if( isset( $data['keyword'] ) )
 		{
+            $keyword = $data['keyword'];
+
             $users->where( function( $query ) use ( $keyword ) {
                 $query->orWhere('u.name', 'LIKE', "%$keyword%")
                     ->orWhere('u.username', 'LIKE', "%$keyword%");
             });
 		}
 
-        return $users->paginate(10);
+        return $users
+            ->where( 'u.status', '=', 'active' )
+            ->paginate(10);
         // return $users->get();
 			
     }
@@ -79,8 +84,8 @@ class UsersController extends Controller
 
 
 		$validate_data =  [
-			'username'	=> 'required|alpha|min:2|max:255',
-			'name'	=> 'required|alpha|min:2|max:255',
+			'username'	=> 'required|alphanum|min:2|max:255',
+			'name'	=> 'required|regex:/^[\pL\s\-]+$/u|min:2|max:255',
 		];
 		
         $messages['password.required']	= 'Please Enter Password!';
@@ -101,6 +106,43 @@ class UsersController extends Controller
 			return true;
 		}
 
+	}
+
+    public static function checkUsername( Request $data  )
+	{
+		return self::validateUserName( $data->all() );
+	}
+
+    public static function validateUserName( $user )
+	{
+        if( !isset( $user['user_hash'] ) )
+            $user['user_hash'] = '';
+
+		$self = (array) Users::get( [ 'user_hash' => $user['user_hash'], 'username' => $user['username'] ] )->select('u.username')->first();
+
+		$username = (array) Users::get( [ 'username' => $user['username'] ] )->select('u.username')->first();
+
+		if( isset( $self['username'] ) && isset( $username['username'] ) )
+		{
+			
+			if( is_null($self) && is_null($username) ) 
+				return 'false';
+			elseif( is_null($self) && !is_null($username) )
+				return 'true';
+			elseif( !is_null($self) && is_null($username) )
+				return 'false';
+			elseif( $self['username'] == $username['username'] )
+				return 'false';
+			else
+				return 'true';
+		}
+		else
+		{
+			if( isset( $username['username'] ) )
+				return 'true';
+			else
+				return 'false';
+		}
 	}
 
     public static function removeUser( Request $data )

@@ -7,12 +7,12 @@
             <table class="w-full bg-white border-none rounded table-auto border-spacing-3">
                 <thead>
                     <tr>
-                        <th class="p-2 ">Category Name</th>
+                        <th class="p-2 text-left">Category Name</th>
                         <th class="p-2 pr-8 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="p-2 border border-solid rounded hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-blue-500 text-black"
+                    <tr class="p-2 text-black border border-solid rounded hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-blue-500"
                         v-for="(value, key) in pagination.data" :key="value.category_id">
                         <td class="p-2 text-left"> {{ value.name }}</td>
                         <td class="float-right">
@@ -31,7 +31,7 @@
         <div class="flex flex-none w-full p-2">
             <div class="flex-none w-6/12 ">
 
-                <button type="button" class="flex rounded-lg bg-green-600 hover:bg-emerald-500 text-stone-50 p-3"
+                <button type="button" class="flex p-3 bg-green-600 rounded-lg hover:bg-emerald-500 text-stone-50"
                     @click="addOrEdit('Add')">
                     <plus-icon /> Add Category
                 </button>
@@ -47,17 +47,19 @@
 
 
     <el-dialog v-model="openForm" :title="action + ' Category'" width="20%" :close-on-click-modal="clearform">
-        <el-form :label-position="top" label-width="100px" :model="formdata" :rules="rules" style="max-width: 460px">
+        <el-form :label-position="top" label-width="100px" :model="formdata" :rules="rules">
+
             <el-form-item label="Name" prop="name">
-                <el-input v-model="v$.formdata.name.$model" type="text" placeholder="Name" autocomplete="off"
-                    error="v$.formdata.name.$error" />
-                <div class="text-red-600" v-if="v$.formdata.name.$error" v-for="error of v$.formdata.name.$errors"
-                    :key="error.$uid">
-                    <strong>{{ error.$message }}</strong>
+                <el-input v-model="formdata.name" @blur="v$.formdata.name.$touch" type="text" placeholder="Name"
+                    autocomplete="off" />
+
+                <div class="text-red-600" v-for="error of v$.formdata.name.$errors" :key="error.$uid">
+                    <strong>{{ error.$message }}</strong> <br />
                 </div>
             </el-form-item>
 
         </el-form>
+
         <template #footer class="bg-slate-200">
             <span class="dialog-footer ">
                 <el-button @click="openForm = false">Cancel</el-button>
@@ -65,6 +67,7 @@
                 </el-button>
             </span>
         </template>
+
     </el-dialog>
 
 </template>
@@ -74,7 +77,7 @@ import useVuelidate from '@vuelidate/core'
 import { required, minLength, maxLength } from '@vuelidate/validators';
 
 import VueAdsPagination from 'vue-ads-pagination';
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 
 import EditIcon from 'vue-material-design-icons/Pencil.vue';
 import DeleteIcon from 'vue-material-design-icons/Delete.vue';
@@ -82,25 +85,20 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue';
 
 export default {
     setup() {
-        const state = reactive({
-            formdata: {
-                name: '',
-            },
-        })
-
-        const rules = {
+        return {
+            v$: useVuelidate()
+        }
+    },
+    validations() {
+        return {
             formdata: {
                 name: {
                     required,
                     minLength: minLength(2),
                     maxLength: maxLength(255),
-                }
+                },
             }
         }
-
-        const v$ = useVuelidate(rules, state)
-
-        return { state, v$ }
     },
     created() {
         this.$emit('response', 'Categories'),
@@ -162,13 +160,19 @@ export default {
             this.action = action;
             this.openForm = true;
 
-            action == 'add' ? this.clearform : this.formdata = category;
-            
+            action == 'Edit' ? this.formdata = category : '';
         },
         clearform() {
             this.formdata = {
                 name: '',
             };
+        },
+        submitForm() {
+            this.v$.$validate() // checks all inputs
+
+            if (!this.v$.$error)
+                this.save(this.formdata);
+
         },
         async save( form ){
             this.saving = true;
@@ -177,7 +181,12 @@ export default {
                 this.openForm = false;
                 this.search();
             } ).catch(({response:{data}})=>{
-                alert(data.message)
+
+                ElNotification({
+                    title: 'Error',
+                    message: data.message,
+                    type: 'error',
+                })
             }).finally(()=>{
                 this.saving = false
             });
@@ -223,15 +232,6 @@ export default {
                     this.saving = false
                 });
         },
-        submitForm() {
-            this.v$.$validate() // checks all inputs
-
-            if (!this.v$.$error) { // if ANY fail validation
-                this.save(this.formdata);
-            } else {
-                alert('Form successfully submitted.')
-            }
-        }
     },
     mounted() {
         this.search();
