@@ -3,7 +3,7 @@
     <div class="w-full p-2 rounded-full">
 
         <div class="w-full p-2 rounded bg-slate-300 h-fit">
-            {{keywordSearch}}
+
             <table class="w-full bg-white border-none rounded table-auto border-spacing-3">
                 <thead>
                     <tr>
@@ -67,75 +67,108 @@
         </div>
 
         <div class="step-0" v-show="active_form == 0">
-            <el-form :label-position="top" label-width="100px" :model="formdata" :rules="rules">
+            <el-form :label-position="top" label-width="100px">
 
                 <el-form-item label="Product Code" prop="Code">
-                    <el-input v-model="formdata.code" type="text" placeholder="Product Code" autocomplete="off"
+                    <el-input v-model="formOneData.code" type="text" placeholder="Product Code" autocomplete="off"
                         :readonly='true' />
                 </el-form-item>
 
-                <el-select v-model="formdata.category_id" class="m-2" placeholder="Select" size="large">
-                    <el-option v-for="category in categories" :key="category.category_id" :label="category.name"
-                        :value="category.category_id" />
-                </el-select>
+                <el-form-item label="Select category" prop="">
+                    <el-select class="w-full" v-model="formOneData.category_id" placeholder="Select category"
+                        size="large">
+                        <el-option v-for="category in categories" :key="category.category_id" :label="category.name"
+                            :value="category.category_id" />
+                    </el-select>
+
+                    <div class="text-red-600" v-for="error of v$.formOneData.category_id.$errors" :key="error.$uid">
+                        <strong>{{ error.$message }}</strong> <br />
+                    </div>
+                </el-form-item>
 
                 <el-form-item label="Name" prop="name">
-                    <el-input v-model="formdata.name" @blur="v$.formdata.name.$touch" type="text" placeholder="Name"
-                        autocomplete="off" />
+                    <el-input v-model="formOneData.name" @blur="v$.formOneData.name.$touch" type="text"
+                        placeholder="Name" autocomplete="off" />
 
-                    <div class="text-red-600" v-for="error of v$.formdata.name.$errors" :key="error.$uid">
+                    <div class="text-red-600" v-for="error of v$.formOneData.name.$errors" :key="error.$uid">
                         <strong>{{ error.$message }}</strong> <br />
                     </div>
                 </el-form-item>
 
                 <el-form-item label="Description" prop="name">
-                    <el-input v-model="formdata.description" @blur="v$.formdata.description.$touch" :rows="5"
+                    <!-- <editor-content :editor="editor" /> -->
+
+                    <el-input v-model="formOneData.description" @blur="v$.formOneData.description.$touch" :rows="5"
                         type="textarea" placeholder="Please input" />
 
-                    <div class="text-red-600" v-for="error of v$.formdata.description.$errors" :key="error.$uid">
+                    <div class="text-red-600" v-for="error of v$.formOneData.description.$errors" :key="error.$uid">
                         <strong>{{ error.$message }}</strong> <br />
                     </div>
                 </el-form-item>
 
-                <!-- <editor-content :editor="editor" /> -->
-                <div class="block w-full h-6/12">
+                <div class="flex w-full h-6/12">
                     <div class="w-6/12 ">
-                        <button type="button"
-                            class="flex float-left px-1 py-2 bg-white rounded text-slate-400 hover:text-slate-500"
-                            @click="active_form = 0">
-                            Previou step
-                        </button>
+                        <!-- <el-button class="float-left" type="info" @click="active_form = 0">Previous</el-button> -->
                     </div>
                     <div class="w-6/12 ">
-
-                        <button type="button"
-                            class="flex float-left px-1 py-2 bg-green-300 rounded text-slate-500 hover:bg-green-500"
-                            @click="active_form = 1">
-                            Next step
-                        </button>
+                        <el-button class="float-right" type="primary" @click="step0Form()"> Next</el-button>
                     </div>
                 </div>
+
             </el-form>
         </div>
 
         <div class="w-full step-1" v-show="active_form == 1">
 
-            <input type="file" @change="photoOnChange" />
-            <button type="submit" @click="selectFile"> upload</button>
+            <div class="m-2 mx-auto w-max max-h-60">
+                <img class="mx-auto w-fit max-h-60" v-bind:src=" 'images/' + form_img" alt="product image" />
+            </div>
 
-            <div class="flex items-center justify-center w-full h-screen bg-grey-lighter">
+            <div class="flex items-center justify-center w-full h-fit bg-grey-lighter">
                 <label
-                    class="flex flex-col items-center w-64 px-4 py-6 tracking-wide uppercase bg-white border rounded-lg shadow-lg cursor-pointer text-blue border-blue hover:bg-blue hover:text-white">
-                    <span class="mt-2 text-base leading-normal">Upload Image</span>
-                    <input type='file' class="hidden" />
+                    class="flex flex-col items-center px-4 py-2 tracking-wide uppercase bg-white border rounded-lg shadow-lg cursor-pointer w-fit text-blue border-blue hover:bg-blue hover:text-white hover:bg-sky-500">
+                    <span class="text-base leading-normal">Upload Image</span>
+                    <input type='file' class="hidden" @change="photoOnChange" />
                 </label>
+            </div>
+
+            <div class="flex w-full h-6/12">
+                <div class="w-6/12 ">
+                    <el-button class="float-left" type="info" @click="active_form = 0">Previous</el-button>
+                </div>
+                <div class="w-6/12 ">
+                    <el-button class="float-right" type="primary" @click="step1Form">Next</el-button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full step-1" v-show="active_form == 2">
+
+            <el-form :label-position="top" label-width="100px">
+                <el-form-item label="Select category" prop="">
+                    <el-date-picker class="w-full" v-model="formTwoData.date_and_time" type="datetime"
+                        placeholder="Select date and time" :default-time="defaultTime" />
+
+                    <div class="text-red-600" v-for="error of v$.formTwoData.date_and_time.$errors" :key="error.$uid">
+                        <strong>{{ error.$message }}</strong> <br />
+                    </div>
+                </el-form-item>
+            </el-form>
+
+            <div class="flex w-full h-6/12">
+                <div class="w-6/12 ">
+                    <el-button class="float-left" type="info" @click="active_form = 1">Previous</el-button>
+                </div>
+                <div class="w-6/12 ">
+                    <el-button class="float-right" type="primary" @click="step2Form">Save</el-button>
+                </div>
             </div>
         </div>
 
         <template #footer class="bg-slate-200">
             <span class="dialog-footer ">
                 <el-button @click="openForm = false">Cancel</el-button>
-                <!-- <el-button type="success" @click="submitForm()" :disabled="v$.$error && true" :loading="saving">Save -->
+                <!-- <el-button type="success" @click="step0Form()" :disabled="v$.$error && true" :loading="saving">Save -->
                 <!-- </el-button> -->
             </span>
         </template>
@@ -166,11 +199,16 @@ export default {
     },
     validations() {
         return {
-            formdata: {
+            formOneData: {
                 name: {
                     required,
                     minLength: minLength(2),
                     maxLength: maxLength(255),
+                },
+                code: {
+                    required,
+                    minLength: minLength(8),
+                    maxLength: maxLength(8),
                 },
                 category_id: {
                     required,
@@ -180,14 +218,12 @@ export default {
                     minLength: minLength(2),
                     maxLength: maxLength(255),
                 },
-                date_and_time: {
-                    required,
-                },
-            }
+            },
+            formTwoData: { date_and_time: { required } },
         }
     },
     created() {
-        this.$emit('response', 'Categories'),
+        this.$emit('response', 'Products'),
         this.$emit('search', true)
     },
     props: {
@@ -210,16 +246,20 @@ export default {
             openForm: false,
             keyword: this.keywordSearch,
             action: 'Add',
-            formdata: {
+            formOneData: {
                 name: '',
                 code: this.randomInteger(10000000, 99999999),
                 category_id: '',
                 description: '',
-                img_path: '',
-                date_and_time: '',
             },
+            formTwoData: { 
+                date_and_time: new Date() 
+            },
+            form_img: "milk_carton.png",
             active_form: 0,
             editor: null,
+            show_image: true,
+            defaultTime: new Date(),
         }
     },
     validationConfig: {
@@ -237,10 +277,10 @@ export default {
                 }),
             ],
         });
-        this.search();
     },
     beforeMount() {
         this.getCategories();
+        this.search(1);
         // this.editor.destroy();
     },
     methods: {
@@ -249,7 +289,11 @@ export default {
                 .then(({ data }) => {
                     this.categories = data;
                 }).catch(({ response: { data } }) => {
-                    alert(data.message)
+                    ElNotification({
+                        title: 'Error',
+                        message: 'Unable to retrieve categorie. Please try again later',
+                        type: 'error',
+                    })
                 }).finally(() => {
                     this.processing = false
                 });
@@ -265,13 +309,15 @@ export default {
             if( this.keywordSearch )
                 url+= '&keyword='+ this.keywordSearch;
 
-            console.log(this.keywordSearch );
-
             await this.$axios.post(url, this.keyword)
             .then( ({ data }) => {
                 this.pagination = data;
             } ).catch(({response:{data}})=>{
-                alert(data.message)
+                ElNotification({
+                    title: 'Error',
+                    message: 'Unable to retrieve data. Please try again later',
+                    type: 'error',
+                })
             }).finally(()=>{
                 this.processing = false
             });
@@ -283,67 +329,89 @@ export default {
             this.action = action;
             this.openForm = true;
 
-            action == 'Edit' ? this.formdata = product : '';
-        },
-        next(){
-            if ( this.active_form++ > 2 ) this.active_form = 2;
-        },
-        back(){
-            if ( this.active_form-- < 0 ) this.active_form = 0;
-        },
-        photoOnChange(e) {
-            this.image = e.target.files[0];
-        },
-        async selectFile(e) {
-            
-            e.preventDefault();
+            if (action == 'Edit') {
+                this.formOneData = product;
+                this.formTwoData = {
+                    date_and_time: new Date(product.date_and_time)
+                }
+                this.form_img = product.img_path;
+            }
 
-            let existingObj = this;
+        },
+        getImgUrl( image_url ) {
+            return image_url;
+        },
+        async photoOnChange(e) {
+            
+            this.show_image = true;
+
+            const Imagedata = new FormData();
+
+            Imagedata.append('image', e.target.files[0]);
 
             const config = {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
             }
-            
-            const Imagedata = new FormData();
 
-            Imagedata.append('image', this.image);
-
-            console.log(Imagedata );
-
-            await this.$axios.post('api/product/uploadImg', Imagedata, config)
-                .then(function (res) {
-                    existingObj.success = res.data.success;
+            this.form_img = await this.$axios.post('api/product/uploadImg', Imagedata, config)
+                .then(function (response) {
+                    return response.data.image_path;
                 })
                 .catch(function (err) {
-                    existingObj.output = err;
+                    ElNotification({
+                        title: 'Error',
+                        message: err,
+                        type: 'error',
+                    })
                 });
-
         },
         clearform() {
-            this.formdata = {
+            this.active_form = 0;
+            this.formOneData = {
                 name: '',
-                code: this.randomInteger(10000000, 99999999),
-                category_id: '',
-                description: '',
-                img_path: '',
-                date_and_time: '',
-            };
+                    code: this.randomInteger(10000000, 99999999),
+                        category_id: '',
+                            description: '',
+            },
+            this.formTwoData = {
+                date_and_time: new Date()
+            },
+            this.form_img = "milk_carton.png"
         },
-        submitForm() {
-            this.v$.$validate() // checks all inputs
+        step0Form() {
+            this.v$.formOneData.$validate();
 
-            if (!this.v$.$error)
-                this.save(this.formdata);
+            if(!this.v$.formOneData.$error)
+                this.active_form = 1;
+        },
+        step1Form() {
+            this.active_form = 2;
+        },
+        step2Form() {
+            this.v$.formTwoData.$validate() 
+
+            if (!this.v$.formTwoData.$error){
+                let formdata = Object.assign(this.formOneData, { img_path: this.form_img }, this.formTwoData );
+                this.save(formdata);
+            }
 
         },
         async save( form ){
             this.saving = true;
             await this.$axios.post( 'api/product/AddOrUpdate', form )
             .then( ({ data }) => {
+
+                ElNotification({
+                    title: 'Success',
+                    message: data.message,
+                    type: 'success',
+                })
+
                 this.openForm = false;
                 this.search();
+                this.clearform();
             } ).catch(({response:{data}})=>{
 
                 ElNotification({
@@ -355,9 +423,9 @@ export default {
                 this.saving = false
             });
         },
-        confirmDelete( Product ){
+        confirmDelete( product ){
             ElMessageBox.confirm(
-                `Are you sure you want to delete ${ Product.name }?`,
+                `Are you sure you want to delete ${ product.name }?`,
                 'Warning',
                 {
                     confirmButtonText: 'Yes',
@@ -366,8 +434,7 @@ export default {
                 }
             )
             .then((action) => {
-                console.log(action);
-                this.remove(Product);
+                this.remove(product);
             })
             .catch((action) => {
                 console.log(action + 'hello');
@@ -378,15 +445,15 @@ export default {
                 })
             })
         },
-        async remove(Product) {
+        async remove(product) {
 
-            await this.$axios.post('api/product/remove', Product)
+            await this.$axios.post('api/product/remove', product)
                 .then(({ data }) => {
                     ElMessage({
                         type: 'success',
                         message: 'Delete completed',
                     })
-                    this.search();
+                    this.search(1);
                 }).catch(({ response: { data } }) => {
                     ElMessage({
                         type: 'error',

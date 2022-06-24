@@ -205,7 +205,11 @@ export default {
                 .then(({ data }) => {
                     this.pagination = data;
                 }).catch(({ response: { data } }) => {
-                    // alert(data.message)
+                    ElNotification({
+                        title: 'Error',
+                        message: 'Unable to retrieve data. Please try again later',
+                        type: 'error',
+                    })
                 }).finally(() => {
                     this.processing = false
                 });
@@ -268,7 +272,6 @@ export default {
                 }
             )
                 .then((action) => {
-                    console.log(action);
                     this.remove(user);
                 })
                 .catch((action) => {

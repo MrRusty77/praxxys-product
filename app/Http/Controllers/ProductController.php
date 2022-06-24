@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Validator;
+
 class ProductController extends Controller
 {
     /**
@@ -26,6 +28,7 @@ class ProductController extends Controller
 		$product->select( 
 			'p.code',
 			'p.name',
+			'p.hash',
 			'p.description',
 			'p.img_path',
 			'p.date_and_time',
@@ -35,6 +38,8 @@ class ProductController extends Controller
 
         if( isset( $data['keyword'] ) )
 		{
+			$keyword = $data['keyword'];
+
             $product->where( function( $query ) use ( $keyword ) {
                 $query->orWhere('p.name', 'LIKE', "%$keyword%")
                     ->orWhere('p.code', 'LIKE', "%$keyword%");
@@ -42,11 +47,8 @@ class ProductController extends Controller
 		}
 
         return $product->paginate(10);
-        // return $users->get();
 			
     }
-
-
 
     public function uploadImg( Request $request )
     {
@@ -68,13 +70,13 @@ class ProductController extends Controller
 
         $val = self::validateInput( $data->all() );
 
-        if( !isset( $val['error'] ) )  
+        if( isset( $val['error'] ) )  
             return response()->json( (array) $val, 401 );
 
-        if( isset( $data['hash'] ) == 0 )
+        if( isset( $data['hash'] ) )
             return response()->json( Product::updateProduct( $data->all() ) );
         else
-            return response()->json( Product::addProduct( $data->all() ) );
+            return response()->json( Product::createProduct( $data->all() ) );
          
 
     }
@@ -93,8 +95,8 @@ class ProductController extends Controller
 
 		$validate_data =  [
 			'name'	=> 'required|regex:/[a-zA-Z0-9\s]+/|min:2|max:255',
-			'code'	=> 'required|numeric|min:2|max:255',
-			'category_id'	=> 'required|numeric|min:2|max:255',
+			'code'	=> 'required|numeric|digits_between:8,8',
+			'category_id'	=> 'required|numeric|min:1|max:255',
 			'description'	=> 'required|regex:/[a-zA-Z0-9\s]+/|min:2',
 			'img_path'	=> 'required',
 			'date_and_time'	=> 'required',

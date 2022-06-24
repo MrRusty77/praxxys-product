@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
 
 class Product extends Model
 {
@@ -48,6 +50,8 @@ class Product extends Model
         $product->code		    = $data['code'];
         $product->hash		    = Hash::make( $data['name'].date('Y-m-d H:i:s') );
         $product->category_id	= $data['category_id'];
+        $product->description	= $data['description'];
+        $product->date_and_time = date('Y-m-d H:i:s', strtotime($data['date_and_time']));
         $product->img_path	    = $data['img_path'];
 
         $product->save();
@@ -58,7 +62,7 @@ class Product extends Model
         ];
     }
 
-    public static function updateUser( $data )
+    public static function updateProduct( $data )
 	{
 
 		try
@@ -68,7 +72,8 @@ class Product extends Model
 				"category_id"	=> $data['category_id'],
 				"description"	=> $data['description'],
 				"img_path"      => $data['img_path'],
-				"date_and_time"	=> $data['date_and_time'],
+				"description"    => $data['description'],
+				"date_and_time"	=> date('Y-m-d H:i:s', strtotime($data['date_and_time'])),
 			];
 
 			$product = Product::where( 'hash', '=' , $data['hash'] );

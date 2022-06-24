@@ -47,6 +47,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/product/search', [ProductController::class, 'search']);
     Route::post('/product/AddOrUpdate', [ProductController::class, 'AddOrUpdate']);
     Route::post('/product/uploadImg', [ProductController::class, 'uploadImg']);
-    Route::post('/product/remove', [ProductController::class, 'removeCategory']);
+    Route::post('/product/remove', [ProductController::class, 'removeProduct']);
 
 });
