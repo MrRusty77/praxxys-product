@@ -31,7 +31,7 @@ class CategoriesController extends Controller
 			'c.created_at',
 		);
 
-        return $users->where( 'c.status', '=', 'active' )->get();
+        return $categories->where( 'c.status', '=', 'active' )->get();
     }
 
     public function search( Request $data )

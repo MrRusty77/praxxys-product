@@ -56,31 +56,87 @@
     </div>
 
 
-    <el-dialog v-model="openForm" :title="action + ' Product'" width="20%" :close-on-click-modal="clearform">
-        <el-form :label-position="top" label-width="100px" :model="formdata" :rules="rules">
+    <el-dialog v-model="openForm" :title="action + ' Product'" width="50%" :close-on-click-modal="clearform">
 
-            <el-form-item label="Name" prop="name">
-                <el-input v-model="formdata.name" @blur="v$.formdata.name.$touch" type="text" placeholder="Name"
-                    autocomplete="off" />
-
-                <div class="text-red-600" v-for="error of v$.formdata.name.$errors" :key="error.$uid">
-                    <strong>{{ error.$message }}</strong> <br />
-                </div>
-            </el-form-item>
-
-            <el-steps :active="active" finish-status="success">
+        <div class="w-full">
+            <el-steps :active=" active_form" finish-status="success">
                 <el-step title="Step 1" />
                 <el-step title="Step 2" />
                 <el-step title="Step 3" />
             </el-steps>
+        </div>
 
-        </el-form>
+        <div class="step-0" v-show="active_form == 0">
+            <el-form :label-position="top" label-width="100px" :model="formdata" :rules="rules">
+
+                <el-form-item label="Product Code" prop="Code">
+                    <el-input v-model="formdata.code" type="text" placeholder="Product Code" autocomplete="off"
+                        :readonly='true' />
+                </el-form-item>
+
+                <el-select v-model="formdata.category_id" class="m-2" placeholder="Select" size="large">
+                    <el-option v-for="category in categories" :key="category.category_id" :label="category.name"
+                        :value="category.category_id" />
+                </el-select>
+
+                <el-form-item label="Name" prop="name">
+                    <el-input v-model="formdata.name" @blur="v$.formdata.name.$touch" type="text" placeholder="Name"
+                        autocomplete="off" />
+
+                    <div class="text-red-600" v-for="error of v$.formdata.name.$errors" :key="error.$uid">
+                        <strong>{{ error.$message }}</strong> <br />
+                    </div>
+                </el-form-item>
+
+                <el-form-item label="Description" prop="name">
+                    <el-input v-model="formdata.description" @blur="v$.formdata.description.$touch" :rows="5"
+                        type="textarea" placeholder="Please input" />
+
+                    <div class="text-red-600" v-for="error of v$.formdata.description.$errors" :key="error.$uid">
+                        <strong>{{ error.$message }}</strong> <br />
+                    </div>
+                </el-form-item>
+
+                <!-- <editor-content :editor="editor" /> -->
+                <div class="block w-full h-6/12">
+                    <div class="w-6/12 ">
+                        <button type="button"
+                            class="flex float-left px-1 py-2 bg-white rounded text-slate-400 hover:text-slate-500"
+                            @click="active_form = 0">
+                            Previou step
+                        </button>
+                    </div>
+                    <div class="w-6/12 ">
+
+                        <button type="button"
+                            class="flex float-left px-1 py-2 bg-green-300 rounded text-slate-500 hover:bg-green-500"
+                            @click="active_form = 1">
+                            Next step
+                        </button>
+                    </div>
+                </div>
+            </el-form>
+        </div>
+
+        <div class="w-full step-1" v-show="active_form == 1">
+
+            <input type="file" @change="photoOnChange" />
+            <button type="submit" @click="selectFile"> upload</button>
+
+            <div class="flex items-center justify-center w-full h-screen bg-grey-lighter">
+                <label
+                    class="flex flex-col items-center w-64 px-4 py-6 tracking-wide uppercase bg-white border rounded-lg shadow-lg cursor-pointer text-blue border-blue hover:bg-blue hover:text-white">
+                    <span class="mt-2 text-base leading-normal">Upload Image</span>
+                    <input type='file' class="hidden" />
+                </label>
+            </div>
+        </div>
 
         <template #footer class="bg-slate-200">
             <span class="dialog-footer ">
                 <el-button @click="openForm = false">Cancel</el-button>
-                <el-button type="success" @click="submitForm()" :disabled="v$.$error && true" :loading="saving">Save
-                </el-button>
+                <!-- <el-button type="success" @click="submitForm()" :disabled="v$.$error && true" :loading="saving">Save -->
+                <!-- </el-button> -->
             </span>
         </template>
 
@@ -99,6 +155,8 @@ import EditIcon from 'vue-material-design-icons/Pencil.vue';
 import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
 
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
 
 export default {
     setup() {
@@ -154,18 +212,48 @@ export default {
             action: 'Add',
             formdata: {
                 name: '',
+                code: this.randomInteger(10000000, 99999999),
                 category_id: '',
                 description: '',
                 img_path: '',
                 date_and_time: '',
             },
+            active_form: 0,
+            editor: null,
         }
     },
     validationConfig: {
         $lazy: true,
         $autoDirty: true
     },
+    mounted() {
+        this.editor = new Editor({
+            content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+            extensions: [
+                StarterKit.configure({
+                    heading: {
+                        levels: [1, 2, 3],
+                    },
+                }),
+            ],
+        });
+        this.search();
+    },
+    beforeMount() {
+        this.getCategories();
+        // this.editor.destroy();
+    },
     methods: {
+        async getCategories(){
+            await this.$axios.get('api/category/get')
+                .then(({ data }) => {
+                    this.categories = data;
+                }).catch(({ response: { data } }) => {
+                    alert(data.message)
+                }).finally(() => {
+                    this.processing = false
+                });
+        },
         async search( selectedPage ) {
              
             this.processing = true;
@@ -188,15 +276,55 @@ export default {
                 this.processing = false
             });
         },
+        randomInteger(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        },
         addOrEdit( action, product ){
             this.action = action;
             this.openForm = true;
 
             action == 'Edit' ? this.formdata = product : '';
         },
+        next(){
+            if ( this.active_form++ > 2 ) this.active_form = 2;
+        },
+        back(){
+            if ( this.active_form-- < 0 ) this.active_form = 0;
+        },
+        photoOnChange(e) {
+            this.image = e.target.files[0];
+        },
+        async selectFile(e) {
+            
+            e.preventDefault();
+
+            let existingObj = this;
+
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+            
+            const Imagedata = new FormData();
+
+            Imagedata.append('image', this.image);
+
+            console.log(Imagedata );
+
+            await this.$axios.post('api/product/uploadImg', Imagedata, config)
+                .then(function (res) {
+                    existingObj.success = res.data.success;
+                })
+                .catch(function (err) {
+                    existingObj.output = err;
+                });
+
+        },
         clearform() {
             this.formdata = {
                 name: '',
+                code: this.randomInteger(10000000, 99999999),
                 category_id: '',
                 description: '',
                 img_path: '',
@@ -269,14 +397,12 @@ export default {
                 });
         },
     },
-    mounted() {
-        this.search();
-    },
     components: {
         'edit-icon': EditIcon,
         'delete-icon': DeleteIcon, 
         'plus-icon': PlusIcon, 
         VueAdsPagination,
+        EditorContent,
     }
     
 }

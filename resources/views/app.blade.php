@@ -33,6 +33,8 @@
         </script>
 
         <script src="{{ mix('js/app.js') }}" defer></script>
-
+        <script>
+            const asset_url = '{{ asset("") }}';
+        </script>
     </body>
 </html>

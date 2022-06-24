@@ -48,26 +48,20 @@ class ProductController extends Controller
 
 
 
-    public function uploadImg( Request $data )
+    public function uploadImg( Request $request )
     {
-		$data->validate([
+		$request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     
-        $imageName = time().'.'.$data->image->extension();  
+        $imageName = time().'.'.$request->image->extension();  
   
-		$file_name = time().'_'.$request->file->getClientOriginalName();
-		$file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+		$file_name = time().'_'.$request->image->getClientOriginalName();
+		$file_path = $request->file('image')->storeAs('uploads', $file_name, 'public');
 
-        $data->image->move(public_path('images'), $imageName);
+        $request->image->move(public_path('images'), $imageName);
   
-        /* Store $imageName name in DATABASE from HERE */
-    
-        return back()
-            ->with('success','You have successfully upload image.')
-            ->with('image',$imageName);
-
-		return 'img';
+		return response()->json( [ 'image_path' => $imageName ], 200 );
 	}
     public function AddOrUpdate( Request $data )
     {
