@@ -7,6 +7,7 @@
             <table class="w-full bg-white border-none rounded table-auto border-spacing-3">
                 <thead>
                     <tr>
+                        <th class="p-2 text-left">Code</th>
                         <th class="p-2 text-left">Product Name</th>
                         <th class="p-2 text-left">Category</th>
                         <th class="p-2 text-left">Description</th>
@@ -18,6 +19,7 @@
                     <tr class="p-2 text-black border border-solid rounded hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-blue-500"
                         v-for="(value, key) in pagination.data" :key="value.hash">
 
+                        <td class="p-2 text-left"> {{ value.code }}</td>
                         <td class="p-2 text-left"> {{ value.name }}</td>
                         <td class="p-2 text-left"> {{ value.category }}</td>
                         <td class="p-2 text-left"> {{ value.description }}</td>

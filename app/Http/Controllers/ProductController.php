@@ -25,7 +25,7 @@ class ProductController extends Controller
 
 		$product->select( 
 			'p.code',
-			'p.name as product',
+			'p.name',
 			'p.description',
 			'p.img_path',
 			'p.date_and_time',

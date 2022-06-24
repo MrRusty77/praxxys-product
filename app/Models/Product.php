@@ -11,6 +11,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $table = 'product';
+
     public function get( $data = null )
     {
         $product = DB::table('product as p')

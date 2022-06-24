@@ -20,137 +20,171 @@ class ProductSeeder extends Seeder
     {
         Product::create([ 
             'name' => 'Product1',
-            'code' => rand(10,10),
+            'description' => 'Product1',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product1'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 1,
         ]);
         
         Product::create([ 
             'name' => 'Product2',
-            'code' => rand(10,10),
+            'description' => 'Product2',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product2'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 2,
         ]);
 
         Product::create([ 
             'name' => 'Product3',
-            'code' => rand(10,10),
+            'description' => 'Product3',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product3'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 3,
         ]);
 
         Product::create([ 
             'name' => 'Product4',
-            'code' => rand(10,10),
+            'description' => 'Product4',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product4'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 4,
         ]);
 
         Product::create([ 
             'name' => 'Product5',
-            'code' => rand(10,10),
+            'description' => 'Product5',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product5'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 5,
         ]);
 
         Product::create([ 
             'name' => 'Product6',
-            'code' => rand(10,10),
+            'description' => 'Product6',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product6'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 6,
         ]);
 
         Product::create([ 
             'name' => 'Product6',
-            'code' => rand(10,10),
+            'description' => 'Product6',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product6'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 6,
         ]);
 
         Product::create([ 
             'name' => 'Product7',
-            'code' => rand(10,10),
+            'description' => 'Product7',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product7'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 7,
         ]);
 
         Product::create([ 
             'name' => 'Product8',
-            'code' => rand(10,10),
+            'description' => 'Product8',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product8'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 8,
         ]);
 
         Product::create([ 
             'name' => 'Product9',
-            'code' => rand(10,10),
+            'description' => 'Product9',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product9'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 9,
         ]);
 
         Product::create([ 
             'name' => 'Product10',
-            'code' => rand(10,10),
+            'description' => 'Product10',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product10'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 10,
         ]);
 
         Product::create([ 
             'name' => 'Product11',
-            'code' => rand(10,10),
+            'description' => 'Product11',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product11'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 11,
         ]);
 
         Product::create([ 
             'name' => 'Product12',
-            'code' => rand(10,10),
+            'description' => 'Product12',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product12'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 12,
         ]);
 
         Product::create([ 
             'name' => 'Product13',
-            'code' => rand(10,10),
+            'description' => 'Product13',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product13'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 13,
         ]);
 
         Product::create([ 
             'name' => 'Product14',
-            'code' => rand(10,10),
+            'description' => 'Product14',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product14'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 14,
         ]);
 
         Product::create([ 
             'name' => 'Product15',
-            'code' => rand(10,10),
+            'description' => 'Product15',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product15'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 15,
         ]);
 
         Product::create([ 
             'name' => 'Product16',
-            'code' => rand(10,10),
+            'description' => 'Product16',
+            'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product16'),
             'img_path' => 'milk_carton.png',
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 16,
         ]);
     }
