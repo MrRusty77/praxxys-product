@@ -5,6 +5,7 @@ import Home from "../Components/Main.vue";
 // import HelloWorld from "../Components/Example.vue";
 import Categories from "../Components/Pages/Categories.vue";
 import Users from "../Components/Pages/Users.vue";
+import Product from "../Components/Pages/Product.vue";
 
 const routes = [
   {
@@ -26,6 +27,10 @@ const routes = [
       {
         path: 'categories',
         component: Categories,
+      },
+      {
+        path: 'product',
+        component: Product,
       },
     ],
   },

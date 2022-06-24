@@ -13,8 +13,8 @@
                 </div>
             </div>
             <div class="w-7/12">
-                <div class="bg-white flex rounded hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-blue-500 w-6/12 mx-auto">                
-                    <search-icon class="text-sky-600 p-1 rounded"/>
+                <div class="flex w-6/12 mx-auto bg-white rounded hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-blue-500">                
+                    <search-icon class="p-1 rounded text-sky-600"/>
                     <input 
                         v-model="keyword" 
                         v-show="searchInput" 
@@ -23,7 +23,7 @@
                         name="search" 
                         autocomplete="off" 
                         placeholder="Search"
-                        class="flex-none w-fit px-2 py-1 text-black border-none rounded border-transparent focus:border-transparent focus:ring-0" 
+                        class="flex-none px-2 py-1 text-black border-transparent border-none rounded w-fit focus:border-transparent focus:ring-0" 
                     />
                 </div>
             </div>
@@ -47,6 +47,7 @@
             <span>Hi there!</span>
             <router-link to="/users">Users</router-link>
             <router-link to="/categories">Categories</router-link>
+            <router-link to="/product">Product</router-link>
         </el-drawer>
 
     </div>

@@ -46,6 +46,29 @@ class ProductController extends Controller
 			
     }
 
+
+
+    public function uploadImg( Request $data )
+    {
+		$data->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+    
+        $imageName = time().'.'.$data->image->extension();  
+  
+		$file_name = time().'_'.$request->file->getClientOriginalName();
+		$file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+
+        $data->image->move(public_path('images'), $imageName);
+  
+        /* Store $imageName name in DATABASE from HERE */
+    
+        return back()
+            ->with('success','You have successfully upload image.')
+            ->with('image',$imageName);
+
+		return 'img';
+	}
     public function AddOrUpdate( Request $data )
     {
 
@@ -90,5 +113,27 @@ class ProductController extends Controller
 		else 
 			return true;
 		
+	}
+
+	public static function removeProduct( Request $data )
+	{
+        $val = self::validateRemoveProductInput( $data->all() );
+
+        if( !isset( $val['error'] ) )  
+            return Product::removeProduct( $data->all() );	
+        else 
+            response()->json( (array) $val, 404 );
+
+	}
+
+	public static function validateRemoveProductInput( $data )
+	{
+		$validator = Validator::make( $data, ['hash' => 'required'], ['hash.required' => 'Please select cathegory'] );
+
+		if( $validator->fails() ) {
+			return $validator->validate();
+		} else {
+			return true;
+		}
 	}
 }

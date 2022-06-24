@@ -19,6 +19,21 @@ class CategoriesController extends Controller
         //
     }
 
+    public function get( Request $data )
+    {
+        $data = $data->all();
+
+		$categories = Categories::get( $data );
+
+		$categories->select( 
+			'c.id as category_id',
+			'c.name',
+			'c.created_at',
+		);
+
+        return $users->where( 'c.status', '=', 'active' )->get();
+    }
+
     public function search( Request $data )
     {
         $data = $data->all();
