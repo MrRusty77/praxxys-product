@@ -17,7 +17,7 @@ class Images extends Migration
             $table->id();
             $table->text('path')->nullable();
             // $table->integer('product_id');
-            $table->string('product_hash', 255)->unique();
+            $table->string('product_hash', 255);
             $table->string('status', 16)->default('active');
             $table->timestamps();
         });

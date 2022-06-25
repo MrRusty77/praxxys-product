@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Images extends Model
 {
@@ -11,6 +12,7 @@ class Images extends Model
 
     public function get( $data = null )
     {
+
         $images = DB::table('images as i');
 
         if( !isset( $data['status'] ) )
@@ -21,9 +23,9 @@ class Images extends Model
         if( isset( $data['product_id'] ) )
             $images->where( 'i.product_id', '=', $data['product_id'] );
 
-        if( isset( $data['product_hash'] ) )
-            $images->where( 'i.product_hash', '=', $data['product_hash'] );
-
+        // if( isset( $data['hash'] ) )
+        //     $images->where( 'i.product_hash', '=', $data['hash'] );
+		
         return $images;
     }
 
@@ -38,56 +40,49 @@ class Images extends Model
 
         return [ 
             "error" => null,
-            "message" => "Successfully added " . $data['name'],
         ];
     }
 
-    public static function createImagesBulk( $image_path, $product ) {
+    public static function createImagesBulk( $images, $product ) {
         $query = [];
-        
-        foreach ( $product as $key => $value ) 
+		
+        foreach ( $images as $key => $value ) 
 		{
 			$value = (array) $value;
-			
-			array_push( $query, [ 
-				'path'				    => $image_path,
-				'product_id'		    => $value['product_id'],
-				'product_hash'			=> $value['hash'],
-				'item_reorder_level'	=> $value['item_reorder_level'],
-				'date_created'			=> date('Y-m-d H:i:s'),
 
+			array_push( $query, [ 
+				'path'				    => $value['path'],
+				'product_id'		    => $product['product_id'],
+				'product_hash'			=> $product['hash'],
 			] );
 		}
-
 
         Images::insert( $query );
 
         return [ 
             "error" => null,
-            "message" => "Successfully added " . $data['name'],
         ];
     }
 
-    public static function updateImages( $image_path, $product )
+    public static function updateImages( $image, $product )
 	{
 		try
 		{
             $new_update = [
-				"path"		    => $image_path,
+				"path"		    => $image['path'],
                 "product_id"	=> $product['product_id'],
 				"product_hash"	=> $product['hash'],
 			];
 
-			$images = Images::where( 'id', '=' , $data['category_id'] );
+			$images = Images::where( 'id', '=' , $image['image_id'] );
 
-			if( isset( $data['status'] ) )
-				$new_update["status"]	= $data['status'];
+			if( isset( $image['status'] ) )
+				$new_update["status"]	= $image['status'];
 
 			$images->update( $new_update );
 
 			return [ 
-				"error" => null,
-				"message" => "Successfully updated " . $data['name'],
+				"error" => null
 			];
 
 		}

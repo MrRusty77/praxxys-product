@@ -27,6 +27,7 @@ class ProductController extends Controller
 		$product = Product::get( $data );
 
 		$product->select( 
+			'p.id as product_id',
 			'p.code',
 			'p.name',
 			'p.hash',
@@ -52,9 +53,31 @@ class ProductController extends Controller
 
     public function uploadImg( Request $request )
     {
-		$request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+
+		$validate_data = ['image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'];
+
+		$messages = [
+			'image.required'	=> 'Please Upload Product image!',
+			'image.image'		=> 'Invalid file!',
+			'image.mimes'		=> 'Invalid file!',
+			'image.max'			=> 'Image filesize must not be more than 2048'
+		];
+
+		$messages = [
+			'name.required'	=> 'Please Enter Product Name!',
+			'code.required'	=> 'Please Enter Code!',
+			'category_id.required'	=> 'Please Select Category!',
+			'description.required'	=> 'Please Enter Description!',
+			'img_path.required'	=> 'Please Enter Image!',
+			'date_and_time.required'	=> 'Please Pick Date and Time!',
+		];
+
+		$validator = Validator::make( $request->all(), $validate_data, $messages );
+
+		if( $validator->fails() )
+			return $validator->validate();
+
+		$request->validate( $validate_data, $messages );
     
         $imageName = time().'.'.$request->image->extension();  
   
@@ -65,6 +88,7 @@ class ProductController extends Controller
   
 		return response()->json( [ 'image_path' => $imageName ], 200 );
 	}
+
     public function AddOrUpdate( Request $data )
     {
 		$data = (array) $data->all();
@@ -75,7 +99,7 @@ class ProductController extends Controller
 
         if( isset( $data['hash'] ) ){
 			$results = Product::updateProduct( $data );
-			self::bulkUpdateImages( $data->all() );
+			self::bulkUpdateImages( $data );
 
             return response()->json( $results );
 		}
@@ -95,9 +119,12 @@ class ProductController extends Controller
 		$results = null;
 
 		foreach ( $product['images'] as $key => $value) 
-		{
-
-			$status = Images::updateImages( $value[ 'image_path' ], $product );
+		{	
+			
+			if( isset( $value['image_id'] ) )
+				$status = Images::updateImages( $value, $product );
+			else
+				$status = Images::createImages( $value['path'], $product );
 
 			if( is_null( $results ) )
 				$results = $status;
@@ -123,7 +150,7 @@ class ProductController extends Controller
 			'code'	=> 'required|numeric|digits_between:8,8',
 			'category_id'	=> 'required|numeric|min:1|max:255',
 			'description'	=> 'required|regex:/[a-zA-Z0-9\s]+/|min:2',
-			'img_path'	=> 'required',
+			'images.*'	=> 'required',
 			'date_and_time'	=> 'required',
 		];
 

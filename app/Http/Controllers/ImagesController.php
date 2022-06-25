@@ -24,10 +24,12 @@ class ImagesController extends Controller
 		$images = Images::get( $data );
 
 		$images->select( 
-			'i.path'
+			'i.id as image_id',
+			'i.path',
+			'i.status',
         );
 
-        return $images->get();
+        return $images->where( 'i.status', '=', 'active' )->get();
 			
     }
 }

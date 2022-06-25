@@ -60,7 +60,7 @@ class Product extends Model
             "error" => null,
             "message" => "Successfully added " . $data['name'],
 			"data" => [
-				"product_id" => $product_id->id,
+				"product_id" => $product->id,
 				"hash" => $product->hash
 			]
         ];
