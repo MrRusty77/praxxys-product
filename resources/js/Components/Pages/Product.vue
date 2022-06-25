@@ -4,6 +4,17 @@
 
         <div class="w-full p-2 rounded bg-slate-300 h-fit">
 
+
+            <div class="inline-block w-full py-1">
+                <el-select class="float-right" v-model="filter_category" placeholder="Select category" size="large"
+                    @change="search()">
+                    <el-option :label="'All categoty'" :value="null"></el-option>
+
+                    <el-option v-for="category in categories" :key="category.category_id" :label="category.name"
+                        :value="category.category_id" />
+                </el-select>
+            </div>
+
             <table class="w-full bg-white border-none rounded table-auto border-spacing-3">
                 <thead>
                     <tr>
@@ -308,6 +319,9 @@ export default {
 
             if( this.keywordSearch )
                 url+= '&keyword='+ this.keywordSearch;
+
+            if (this.filter_category )
+                url += '&category_id=' + this.filter_category;
 
             await this.$axios.post(url, this.keyword)
             .then( ({ data }) => {

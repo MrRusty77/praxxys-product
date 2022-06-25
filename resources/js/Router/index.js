@@ -6,6 +6,7 @@ import Home from "../Components/Main.vue";
 import Categories from "../Components/Pages/Categories.vue";
 import Users from "../Components/Pages/Users.vue";
 import Product from "../Components/Pages/Product.vue";
+import Dashboard from "../Components/Pages/Dashboard.vue";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
     alias: '/home',
     meta: { requiresAuth: true },
     children: [
+      {
+        path: 'dashboard',
+        component: Dashboard,
+      },
       {
         path: 'users',
         component: Users,

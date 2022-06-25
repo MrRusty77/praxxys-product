@@ -3,7 +3,6 @@
     <div class="w-full p-2 rounded-full">
 
         <div class="w-full p-2 rounded bg-slate-300 h-fit">
-            {{keywordSearch}}
             <table class="w-full bg-white border-none rounded table-auto border-spacing-3">
                 <thead>
                     <tr>
