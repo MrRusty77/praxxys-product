@@ -61,11 +61,12 @@ export default {
             .then(({data})=>{
                 this.$store.commit( 'authenticateUser', data );
                 this.$store.commit( 'setAuthUser', true );
-                this.$router.push({ name: "Home" });
-            }).catch(({response:{data}})=>{
+                this.$router.push({ path: '/dashboard', redirect: '/dashboard' });
+            }).catch(({response})=>{
+                console.log(response);
                 ElNotification({
                     title: 'Error',
-                    message: data.message,
+                    message: response,
                     type: 'error',
                 })
             }).finally(()=>{

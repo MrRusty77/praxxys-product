@@ -2,6 +2,21 @@
 
     <div class="w-full p-2 rounded-full">
 
+        <LexicalComposer :initial-config="config" @error="onError">
+            <LexicalPlainTextPlugin>
+                <template #contentEditable>
+                    <LexicalContentEditable />
+                </template>
+                <template #placeholder>
+                    <div>
+                        Enter some text...
+                    </div>
+                </template>
+            </LexicalPlainTextPlugin>
+            <LexicalOnChangePlugin v-model="content" @change="onChange" />
+            <LexicalHistoryPlugin />
+            <LexicalAutoFocusPlugin />
+        </LexicalComposer>
         <div class="w-full p-2 rounded bg-slate-300 h-fit">
 
 
@@ -132,7 +147,10 @@
         <div class="w-full step-1" v-show="active_form == 1">
 
             <div class="m-2 mx-auto w-max max-h-60">
-                <img class="mx-auto w-fit max-h-60" v-bind:src=" 'images/' + form_img" alt="product image" />
+                <div v-for="image in this.form_images" :key="image.path">
+                    {{ image }}
+                    <img class="mx-auto w-fit max-h-60" :src="'images/' + image.path" alt="product image" />
+                </div>
             </div>
 
             <div class="flex items-center justify-center w-full h-fit bg-grey-lighter">
@@ -202,6 +220,18 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue';
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 
+import { $getRoot, $getSelection } from 'lexical'
+
+import {
+    LexicalAutoFocusPlugin,
+    LexicalComposer,
+    LexicalContentEditable,
+    LexicalHistoryPlugin,
+    LexicalOnChangePlugin,
+    LexicalPlainTextPlugin,
+} from 'lexical-vue'
+
+
 export default {
     setup() {
         return {
@@ -266,11 +296,22 @@ export default {
             formTwoData: { 
                 date_and_time: new Date() 
             },
-            form_img: "milk_carton.png",
+            form_images: { 
+                path: "milk_carton.png"
+            },
             active_form: 0,
             editor: null,
             show_image: true,
             defaultTime: new Date(),
+            content: '',
+            config: {
+                theme: {
+                    
+                },
+                onError(error) {
+                    console.error(error)
+                },
+            }
         }
     },
     validationConfig: {
@@ -348,12 +389,19 @@ export default {
                 this.formTwoData = {
                     date_and_time: new Date(product.date_and_time)
                 }
-                this.form_img = product.img_path;
+                // this.form_img = product.img_path;
+                //add function for get product images
             }
 
         },
-        getImgUrl( image_url ) {
-            return image_url;
+        onChange(editorState) {
+            editorState.read(() => {
+                // Read the contents of the EditorState here.
+                const root = $getRoot()
+                const selection = $getSelection()
+
+                console.log(root, selection)
+            })
         },
         async photoOnChange(e) {
             
@@ -369,25 +417,35 @@ export default {
                 }
             }
 
-            this.form_img = await this.$axios.post('api/product/uploadImg', Imagedata, config)
-                .then(function (response) {
-                    return response.data.image_path;
+           
+                
+            await this.$axios.post('api/product/uploadImg', Imagedata, config)
+            .then(function (response) {
+                this.form_images.push({path: response.data.image_path})
+            })
+            .catch(function (err) {
+                ElNotification({
+                    title: 'Error',
+                    message: err,
+                    type: 'error',
                 })
-                .catch(function (err) {
-                    ElNotification({
-                        title: 'Error',
-                        message: err,
-                        type: 'error',
-                    })
-                });
+            })  
+            
+        },
+        removeImage( image ){
+            
+            form_images = this.form_images.filter(object => {
+               return object.path !== image;
+            })
+
         },
         clearform() {
             this.active_form = 0;
             this.formOneData = {
                 name: '',
-                    code: this.randomInteger(10000000, 99999999),
-                        category_id: '',
-                            description: '',
+                code: this.randomInteger(10000000, 99999999),
+                category_id: '',
+                description: '',
             },
             this.formTwoData = {
                 date_and_time: new Date()
@@ -407,7 +465,7 @@ export default {
             this.v$.formTwoData.$validate() 
 
             if (!this.v$.formTwoData.$error){
-                let formdata = Object.assign(this.formOneData, { img_path: this.form_img }, this.formTwoData );
+                let formdata = Object.assign(this.formOneData, this.form_images, this.formTwoData );
                 this.save(formdata);
             }
 

@@ -52,13 +52,17 @@ class Product extends Model
         $product->category_id	= $data['category_id'];
         $product->description	= $data['description'];
         $product->date_and_time = date('Y-m-d H:i:s', strtotime($data['date_and_time']));
-        $product->img_path	    = $data['img_path'];
+        // $product->img_path	    = $data['img_path'];
 
         $product->save();
 
         return [ 
             "error" => null,
             "message" => "Successfully added " . $data['name'],
+			"data" => [
+				"product_id" => $product_id->id,
+				"hash" => $product->hash
+			]
         ];
     }
 
@@ -71,7 +75,7 @@ class Product extends Model
 				"name"          => $data['name'],
 				"category_id"	=> $data['category_id'],
 				"description"	=> $data['description'],
-				"img_path"      => $data['img_path'],
+				// "img_path"      => $data['img_path'],
 				"description"    => $data['description'],
 				"date_and_time"	=> date('Y-m-d H:i:s', strtotime($data['date_and_time'])),
 			];

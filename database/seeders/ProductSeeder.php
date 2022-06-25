@@ -23,7 +23,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product1',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product1'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 1,
         ]);
@@ -33,7 +32,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product2',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product2'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 2,
         ]);
@@ -43,7 +41,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product3',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product3'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 3,
         ]);
@@ -53,7 +50,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product4',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product4'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 4,
         ]);
@@ -63,7 +59,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product5',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product5'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 5,
         ]);
@@ -73,7 +68,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product6',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product6'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 6,
         ]);
@@ -83,7 +77,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product7',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product7'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 7,
         ]);
@@ -93,7 +86,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product8',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product8'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 8,
         ]);
@@ -103,7 +95,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product9',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product9'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 9,
         ]);
@@ -113,7 +104,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product10',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product10'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 10,
         ]);
@@ -123,7 +113,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product11',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product11'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 11,
         ]);
@@ -133,7 +122,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product12',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product12'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 12,
         ]);
@@ -143,7 +131,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product13',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product13'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 13,
         ]);
@@ -153,7 +140,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product14',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product14'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 14,
         ]);
@@ -163,7 +149,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product15',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product15'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 15,
         ]);
@@ -173,7 +158,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product16',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product16'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 16,
         ]);
@@ -183,7 +167,6 @@ class ProductSeeder extends Seeder
             'description' => 'Product17',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product17'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 17,
         ]);

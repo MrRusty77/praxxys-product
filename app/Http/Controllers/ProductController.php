@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Images;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Validator;
@@ -30,7 +31,6 @@ class ProductController extends Controller
 			'p.name',
 			'p.hash',
 			'p.description',
-			'p.img_path',
 			'p.date_and_time',
 			'c.id as category_id',
 			'c.name as category',
@@ -67,19 +67,44 @@ class ProductController extends Controller
 	}
     public function AddOrUpdate( Request $data )
     {
-
-        $val = self::validateInput( $data->all() );
+		$data = (array) $data->all();
+        $val = self::validateInput( $data );
 
         if( isset( $val['error'] ) )  
             return response()->json( (array) $val, 401 );
 
-        if( isset( $data['hash'] ) )
-            return response()->json( Product::updateProduct( $data->all() ) );
-        else
-            return response()->json( Product::createProduct( $data->all() ) );
+        if( isset( $data['hash'] ) ){
+			$results = Product::updateProduct( $data );
+			self::bulkUpdateImages( $data->all() );
+
+            return response()->json( $results );
+		}
+        else{
+			$results = Product::createProduct( $data );
+
+			Images::createImagesBulk( $data['images'], $results['data'] );
+            return response()->json( $results );
+
+		}
          
 
     }
+
+	public static function bulkUpdateImages( $product )
+	{
+		$results = null;
+
+		foreach ( $product['images'] as $key => $value) 
+		{
+
+			$status = Images::updateImages( $value[ 'image_path' ], $product );
+
+			if( is_null( $results ) )
+				$results = $status;
+		}
+
+		return $results;
+	}
 
     public static function validateInput( $data )
 	{

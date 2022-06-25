@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImagesController;
 // use App\Http\Controllers\BlogsController;
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,8 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/dashboard/getNumbers', [DashboardController::class, 'getNumbers']);
+
     // Route::get('/users', [UsersController::class, 'search']);
     Route::get('/users/search', [UsersController::class, 'search']);
     Route::post('/users/search', [UsersController::class, 'search']);
@@ -48,5 +52,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/product/AddOrUpdate', [ProductController::class, 'AddOrUpdate']);
     Route::post('/product/uploadImg', [ProductController::class, 'uploadImg']);
     Route::post('/product/remove', [ProductController::class, 'removeProduct']);
+
+    Route::post('/images/get', [ImagesController::class, 'get']);
 
 });

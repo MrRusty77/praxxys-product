@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Categories;
 use App\Models\Users;
 use App\Models\Product;
+use App\Models\Images;
 
 
 class DatabaseSeeder extends Seeder
@@ -41,12 +42,11 @@ class DatabaseSeeder extends Seeder
         Categories::create(['name' => 'Category 19']);
         Categories::create(['name' => 'Category 20']);
 
-         Product::create([ 
+        Product::create([ 
             'name' => 'Product1',
             'description' => 'Product1',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product1'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 1,
         ]);
@@ -56,7 +56,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product2',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product2'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 2,
         ]);
@@ -66,7 +65,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product3',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product3'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 3,
         ]);
@@ -76,7 +74,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product4',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product4'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 4,
         ]);
@@ -86,7 +83,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product5',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product5'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 5,
         ]);
@@ -96,17 +92,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product6',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product6'),
-            'img_path' => 'milk_carton.png',
-            'date_and_time' => date( 'Y-m-d H:i:s' ),
-            'category_id' => 6,
-        ]);
-
-        Product::create([ 
-            'name' => 'Product6',
-            'description' => 'Product6',
-            'code' => rand(10000000,99999999),
-            'hash' => Hash::make('Product6'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 6,
         ]);
@@ -116,7 +101,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product7',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product7'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 7,
         ]);
@@ -126,7 +110,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product8',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product8'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 8,
         ]);
@@ -136,7 +119,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product9',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product9'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 9,
         ]);
@@ -146,7 +128,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product10',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product10'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 10,
         ]);
@@ -156,7 +137,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product11',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product11'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 11,
         ]);
@@ -166,7 +146,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product12',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product12'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 12,
         ]);
@@ -176,7 +155,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product13',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product13'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 13,
         ]);
@@ -186,7 +164,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product14',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product14'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 14,
         ]);
@@ -196,7 +173,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product15',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product15'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 15,
         ]);
@@ -206,9 +182,106 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product16',
             'code' => rand(10000000,99999999),
             'hash' => Hash::make('Product16'),
-            'img_path' => 'milk_carton.png',
             'date_and_time' => date( 'Y-m-d H:i:s' ),
             'category_id' => 16,
+        ]);
+
+        Product::create([ 
+            'name' => 'Product17',
+            'description' => 'Product17',
+            'code' => rand(10000000,99999999),
+            'hash' => Hash::make('Product17'),
+            'date_and_time' => date( 'Y-m-d H:i:s' ),
+            'category_id' => 17,
+        ]);
+
+        Images::create([
+            'product_id' => 1,
+            'product_hash' => Hash::make('Product1'),
+            'path' => 'milk_carton.png',
+        ]);
+
+        Images::create([
+            'product_id' => 2,
+            'product_hash' => Hash::make('Product2'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 3,
+            'product_hash' => Hash::make('Product3'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 4,
+            'product_hash' => Hash::make('Product4'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 5,
+            'product_hash' => Hash::make('Product5'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 6,
+            'product_hash' => Hash::make('Product6'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 7,
+            'product_hash' => Hash::make('Product7'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 8,
+            'product_hash' => Hash::make('Product8'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 9,
+            'product_hash' => Hash::make('Product9'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 10,
+            'product_hash' => Hash::make('Product10'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 11,
+            'product_hash' => Hash::make('Product11'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 12,
+            'product_hash' => Hash::make('Product12'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 13,
+            'product_hash' => Hash::make('Product13'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 14,
+            'product_hash' => Hash::make('Product14'),
+            'path' => 'milk_carton.png',
+        ]);
+        Images::create([
+            'product_id' => 15,
+            'product_hash' => Hash::make('Product15'),
+            'path' => 'milk_carton.png',
+        ]);
+
+        Images::create([
+            'product_id' => 16,
+            'product_hash' => Hash::make('Product16'),
+            'path' => 'milk_carton.png',
+        ]);
+
+        Images::create([
+            'product_id' => 17,
+            'product_hash' => Hash::make('Product17'),
+            'path' => 'milk_carton.png',
         ]);
 
         Users::create([ 
@@ -242,12 +315,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'user4',
             'password' =>  Hash::make('user4'),
             'user_hash' => Hash::make( 'user4'.'developer'.date('Y-m-d H:i:s') ),
-        ]);
-        Users::create([ 
-            'name' => 'user5',
-            'username' => 'user5',
-            'password' =>  Hash::make('user5'),
-            'user_hash' => Hash::make( 'user5'.'developer'.date('Y-m-d H:i:s') ),
         ]);
         Users::create([ 
             'name' => 'user5',
