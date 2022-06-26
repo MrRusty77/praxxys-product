@@ -22,6 +22,7 @@
 
         <script>
             window.auth_user = {{ !!Auth::check(); }};
+            window.asset_url = '{{ asset("") }}';
             @if (Auth::check())
                 window.user = {
                     username: '{{ Auth::user()->username }}',
@@ -33,8 +34,6 @@
         </script>
 
         <script src="{{ mix('js/app.js') }}" defer></script>
-        <script>
-            const asset_url = '{{ asset("") }}';
-        </script>
+
     </body>
 </html>

@@ -7,6 +7,7 @@ export default new Vuex.Store({
         user_info: null,
         token: null,
         user: null,
+        asset_url: window.asset_url,
     },
     mutations: {
         authenticateUser(state, data) {
@@ -46,6 +47,9 @@ export default new Vuex.Store({
         },
         isLoggedIn(state) {
             return state.user !== null;
-        }
+        },
+        getAssetUrl(state) {
+            return state.asset_url;
+        },
     },
 });

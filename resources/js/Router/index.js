@@ -1,12 +1,13 @@
 import { createWebHashHistory, createRouter } from "vue-router";
 
-import Login from "../components/Auth/Login.vue";
-import Home from "../Components/Main.vue";
-// import HelloWorld from "../Components/Example.vue";
-import Categories from "../Components/Pages/Categories.vue";
-import Users from "../Components/Pages/Users.vue";
-import Product from "../Components/Pages/Product.vue";
-import Dashboard from "../Components/Pages/Dashboard.vue";
+import Login from "../Layouts/Auth/Login.vue";
+import Home from "../Layouts/Main.vue";
+// import HelloWorld from "../Layouts/Example.vue";
+import Categories from "../Layouts/Pages/Categories.vue";
+import Users from "../Layouts/Pages/Users.vue";
+import Product from "../Layouts/Pages/Product.vue";
+import Dashboard from "../Layouts/Pages/Dashboard.vue";
+import Videos from "../Layouts/Pages/Videos.vue";
 
 const routes = [
   {
@@ -36,6 +37,10 @@ const routes = [
       {
         path: 'product',
         component: Product,
+      },
+      {
+        path: 'videos',
+        component: Videos,
       },
     ],
   },

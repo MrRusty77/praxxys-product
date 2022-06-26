@@ -16,7 +16,10 @@ class Users extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
 
-    public function get( $data = null )
+    protected $table = 'users';
+
+
+    public function get( $data )
     {
         $users = DB::table('users as u');
 
@@ -28,8 +31,9 @@ class Users extends Authenticatable
         if( isset( $data['name'] ) )
             $users->where( 'u.name', '=', $data['name'] );
 
-        if( isset( $data['username'] ) )
-            $users->where( 'u.username', '=', $data['username'] );
+        if( isset( $data['username'] ) ){
+			$users->where( 'u.username', '=', $data['username'] );
+		}
 
         if( isset( $data['user_hash'] ) )
             $users->where( 'u.user_hash', '=', $data['user_hash'] );
