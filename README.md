@@ -63,7 +63,13 @@ In the project directory and open the terminal or CMD and type
 php artisan db:seed --class=DatabaseSeeder
 ```
 
-5. Accessing the web app
+6. Running the web site
+In the project directory and open the terminal or CMD and type
+```console
+php artisan php artisan serve
+```
+
+7. Accessing the web app
 Go to http://127.0.0.1:8000 to access the web app
 
 ```text
