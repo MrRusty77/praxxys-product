@@ -66,7 +66,7 @@ php artisan db:seed --class=DatabaseSeeder
 6. Running the web site
 In the project directory and open the terminal or CMD and type
 ```console
-php artisan php artisan serve
+php artisan serve
 ```
 
 7. Accessing the web app
