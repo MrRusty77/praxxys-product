@@ -77,6 +77,10 @@ the defualt user
 Username: User1
 Password: User1
 ```
+8. Optional compiling the front end
+```console
+npm run dev
+```
 
 ## Local videos link
 
