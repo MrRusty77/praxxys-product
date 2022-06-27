@@ -87,7 +87,7 @@
             <div class="flex w-full p-5 ">
                 <div class="block w-6/12">
                     <div class="w-fit">
-                        <p class="text-[3rem] font-medium ">{{ numbers.categories }}</p>
+                        <p class="text-[3rem] font-medium ">Play</p>
                     </div>
                     <div class=" w-fit">
                         <p class="text-lg">Video</p>
