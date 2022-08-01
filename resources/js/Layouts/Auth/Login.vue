@@ -66,7 +66,7 @@ export default {
                 console.log(response);
                 ElNotification({
                     title: 'Error',
-                    message: response,
+                    message: response.data.message,
                     type: 'error',
                 })
             }).finally(()=>{

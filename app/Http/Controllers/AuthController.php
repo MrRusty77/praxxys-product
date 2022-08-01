@@ -19,8 +19,9 @@ class AuthController extends Controller
             $request->input('remember') 
             );
 
-        if ( !$auth )
+        if ( !$auth ) {
             return response()->json( [ 'message' => 'Invalid login details'], 401);
+        }
         
         $user = Users::where('username', $request['username'])->firstOrFail();
 

@@ -719,6 +719,9 @@ select {
 .float-left {
   float: left;
 }
+.m-auto {
+  margin: auto;
+}
 .m-5 {
   margin: 1.25rem;
 }
@@ -727,9 +730,6 @@ select {
 }
 .m-2 {
   margin: 0.5rem;
-}
-.m-auto {
-  margin: auto;
 }
 .mx-auto {
   margin-left: auto;
@@ -911,11 +911,6 @@ select {
 }
 .\!w-1\/4 {
   width: 25% !important;
-}
-.w-max {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
 }
 .max-w-xl {
   max-width: 36rem;
@@ -1595,19 +1590,14 @@ select {
   background-color: rgb(14 165 233 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-blue-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-gray-500:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-red-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-blue-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
 .hover\:text-gray-500:hover {
