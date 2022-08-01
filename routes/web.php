@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +20,10 @@ use App\Http\Controllers\UsersController;
 Route::get('/', function () {
     return view("app");
 });
+
+Route::get( '/cart', [ CartController::class, 'show' ] );
+Route::get( '/cart/update', [ CartController::class, 'UpdateCart' ] );
+Route::post( '/cart/update', [ CartController::class, 'UpdateCart' ] );
 
 Route::get('/createdDev', [UsersController::class, 'createdDev']);
 
