@@ -50,6 +50,8 @@ class TransactionsController extends Controller
 
         $transaction->save();
 
+        TransactionLogsController::store( $transaction->id, $request->checkout );
+
         
     }
 

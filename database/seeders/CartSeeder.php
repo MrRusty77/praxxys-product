@@ -4,6 +4,13 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+use Faker\Generator as Faker;
+
+use App\Models\Users;
+use App\Models\Product;
+use App\Models\Cart;
+
+
 class CartSeeder extends Seeder
 {
     /**
@@ -11,8 +18,13 @@ class CartSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker )
     {
-        //
+
+        Cart::create([
+            'user_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
     }
 }

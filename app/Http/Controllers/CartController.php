@@ -6,6 +6,8 @@ use App\Models\Cart;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\DestroyCartRequest;
 use GuzzleHttp\Psr7\Response;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -26,7 +28,7 @@ class CartController extends Controller
      * @param  \App\Http\Requests\StoreCartRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function UpdateCart(StoreCartRequest $request, Cart $cart )
+    public function updateCart(StoreCartRequest $request, Cart $cart )
     {
 
         $inCart = $this->CheckInCart($request, $cart);
@@ -46,7 +48,7 @@ class CartController extends Controller
     protected function CheckInCart($request, Cart $cart)
     { 
         return $cart::where('product_id', $request->product_id)
-                ->where('user_id', Auth::user()->id)
+                ->where('users_id', Auth::user()->id)
                 ->where('status', 'active');
     }
 
@@ -75,7 +77,12 @@ class CartController extends Controller
      */
     public function show(Cart $cart)
     {
-        return $cart->where('user_id',  Auth::user()->id)->paginate(20);   
+        $users_cart = Cart::where('users_id', 2)
+            ->with('product.images')
+            ->where('cart.status', 'active')
+            ->paginate(20); 
+
+        return $users_cart;   
     }
 
     /**
@@ -113,15 +120,37 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Cart  $cart
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DestroyCartRequest $request)
+    public function destroy(Request $request)
     {
-        $cart = Cart::find($request->cart_id);
 
-        $cart->status = 'delete';
+        $request->validate([
+            'id' => ['required', 'min:1'],
+            'status' => ['required'],
+        ]);
 
-        return $cart->save();
+        try {
+
+            $cart = Cart::find($request->id);
+
+            $cart->status = 'delete';
+            $cart->save();
+
+            return response()->json( [
+                'message' => 'Succesfully removed ' . $request->product['name'],
+            ], 200);
+
+        } 
+        catch (\Illuminate\Database\QueryException $exception) 
+        {
+            response()->json([
+                'message' => 'Unable to removed ' . $request->product['name'],
+            ], 400);
+        }
+
+
+        
     }
 }

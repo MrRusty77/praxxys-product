@@ -24,7 +24,8 @@ class DestroyCartRequest extends FormRequest
     public function rules()
     {
         return [
-            'cart_id' => 'require|min:1|intiger'
+            'id' => 'required|min:1|numeric',
+            
         ];
     }
 }

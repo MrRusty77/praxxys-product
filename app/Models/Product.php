@@ -15,6 +15,18 @@ class Product extends Model
 
     protected $table = 'product';
 
+	protected $hidden = ['updated_at', 'created_at'];
+
+	public function cart()
+	{
+		return $this->hasMany(Cart::class);
+	}
+
+	public function images()
+	{
+		return $this->hasMany(Images::class);
+	}
+
     public function get( $data = null )
     {
         $product = DB::table('product as p')

@@ -8,6 +8,7 @@ import Users from "../Layouts/Pages/Users.vue";
 import Product from "../Layouts/Pages/Product.vue";
 import Dashboard from "../Layouts/Pages/Dashboard.vue";
 import Videos from "../Layouts/Pages/Videos.vue";
+import Cart from "../Layouts/Pages/Cart.vue";
 
 const routes = [
   {
@@ -41,6 +42,10 @@ const routes = [
       {
         path: 'videos',
         component: Videos,
+      },
+      {
+        path: 'cart',
+        component: Cart,
       },
     ],
   },

@@ -11,6 +11,11 @@ class Categories extends Model
 {
     use HasFactory;
 
+	public function product()
+	{
+		return $this->hasMany(Product::class);
+	}
+
     public function get( $data = null )
     {
         $categories = DB::table('categories as c');

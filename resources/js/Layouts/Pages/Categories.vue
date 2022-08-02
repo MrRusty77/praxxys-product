@@ -144,8 +144,6 @@ export default {
             if( this.keywordSearch )
                 url+= '&keyword='+ this.keywordSearch;
 
-            console.log(this.keywordSearch );
-
             await this.$axios.post(url, this.keyword)
             .then( ({ data }) => {
                 this.pagination = data;

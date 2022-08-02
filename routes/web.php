@@ -21,9 +21,9 @@ Route::get('/', function () {
     return view("app");
 });
 
-Route::get( '/cart', [ CartController::class, 'show' ] );
-Route::get( '/cart/update', [ CartController::class, 'UpdateCart' ] );
-Route::post( '/cart/update', [ CartController::class, 'UpdateCart' ] );
+// Route::get( '/cart', [ CartController::class, 'show' ] );
+// Route::get( '/cart/update', [ CartController::class, 'UpdateCart' ] );
+// Route::post( '/cart/update', [ CartController::class, 'UpdateCart' ] );
 
 Route::get('/createdDev', [UsersController::class, 'createdDev']);
 

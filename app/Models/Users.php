@@ -16,8 +16,30 @@ class Users extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
 
+	use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
+
     protected $table = 'users';
 
+	protected $hidden = ['password', 'remember_token', 'updated_at', 'created_at'];
+
+	public function cart() {
+		
+		return $this->hasManyDeep(
+			Cart::class, 
+			[Categories::class, Product::class ],
+			[ 'id','category_id', 'product_id'],
+			['id', 'id', 'id'],
+		);
+
+		// return $this->hasManyThrough(
+		// 	Product::class,
+		// 	Cart::class, 
+		// 	'users_id',
+		// 	'id',
+		// 	'product_id',
+		// 	'id',
+		// );
+	}
 
     public function get( $data )
     {

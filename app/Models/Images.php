@@ -10,6 +10,11 @@ class Images extends Model
 {
     use HasFactory;
 
+	public function product()
+	{
+		return $this->belongsTo(product::class);
+	}
+
     public function get( $data = null )
     {
 

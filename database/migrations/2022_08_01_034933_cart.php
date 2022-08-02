@@ -15,8 +15,8 @@ class Cart extends Migration
     {
         Schema::create('cart', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned()->references('id')->on('users');
-            $table->bigInteger('product_id')->unsigned()->references('id')->on('products');
+            $table->bigInteger('users_id')->unsigned()->references('id')->on('users');
+            $table->bigInteger('product_id')->unsigned()->references('id')->on('product');
             // $table->unsignedBigInteger('user_id');
             // $table->foreign('user_id')->references('id')->on('users');
             // $table->unsignedBigInteger('product_id');

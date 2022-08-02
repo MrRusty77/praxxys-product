@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\CartController;
 // use App\Http\Controllers\BlogsController;
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/dashboard/getNumbers', [DashboardController::class, 'getNumbers']);
@@ -54,5 +56,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/product/remove', [ProductController::class, 'removeProduct']);
 
     Route::post('/images/get', [ImagesController::class, 'get']);
+
+    Route::get('/cart/search', [CartController::class, 'show']);
+    Route::post('/cart/search', [CartController::class, 'show']);
+    // Route::get('/cart/update', [CartController::class, 'updateCart']);
+    Route::post('/cart/update', [CartController::class, 'updateCart']);
+    Route::post('/cart/remove', [CartController::class, 'destroy']);
 
 });

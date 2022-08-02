@@ -707,6 +707,9 @@ select {
 .left-0 {
   left: 0px;
 }
+.bottom-0 {
+  bottom: 0px;
+}
 .z-0 {
   z-index: 0;
 }
@@ -742,6 +745,10 @@ select {
 .my-1 {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
+}
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .ml-3 {
   margin-left: 0.75rem;
@@ -856,6 +863,9 @@ select {
 .\!h-40 {
   height: 10rem !important;
 }
+.\!h-20 {
+  height: 5rem !important;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -911,6 +921,12 @@ select {
 }
 .\!w-1\/4 {
   width: 25% !important;
+}
+.w-1\/2 {
+  width: 50%;
+}
+.w-10\/12 {
+  width: 83.333333%;
 }
 .max-w-xl {
   max-width: 36rem;
@@ -1196,6 +1212,10 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
+.bg-gray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -1268,6 +1288,10 @@ select {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
 }
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
 .pt-8 {
   padding-top: 2rem;
 }
@@ -1336,6 +1360,10 @@ select {
 }
 .text-\[3rem\] {
   font-size: 3rem;
+}
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 .font-medium {
   font-weight: 500;
@@ -1807,6 +1835,11 @@ select {
     border-color: rgb(55 65 81 / var(--tw-border-opacity));
   }
 
+  .dark\:border-gray-600 {
+    --tw-border-opacity: 1;
+    border-color: rgb(75 85 99 / var(--tw-border-opacity));
+  }
+
   .dark\:bg-gray-900 {
     --tw-bg-opacity: 1;
     background-color: rgb(17 24 39 / var(--tw-bg-opacity));
@@ -1820,6 +1853,11 @@ select {
   .dark\:\!bg-gray-800 {
     --tw-bg-opacity: 1 !important;
     background-color: rgb(31 41 55 / var(--tw-bg-opacity)) !important;
+  }
+
+  .dark\:bg-gray-700 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity));
   }
 
   .dark\:text-gray-500 {
@@ -1837,9 +1875,23 @@ select {
     color: rgb(156 163 175 / var(--tw-text-opacity));
   }
 
+  .dark\:text-gray-300 {
+    --tw-text-opacity: 1;
+    color: rgb(209 213 219 / var(--tw-text-opacity));
+  }
+
+  .dark\:ring-offset-gray-800 {
+    --tw-ring-offset-color: #1f2937;
+  }
+
   .dark\:hover\:bg-gray-700:hover {
     --tw-bg-opacity: 1;
     background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+  }
+
+  .dark\:focus\:ring-blue-600:focus {
+    --tw-ring-opacity: 1;
+    --tw-ring-color: rgb(37 99 235 / var(--tw-ring-opacity));
   }
 
   .group:hover .dark\:group-hover\:text-white {

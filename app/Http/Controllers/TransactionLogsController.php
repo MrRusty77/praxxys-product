@@ -35,7 +35,7 @@ class TransactionLogsController extends Controller
      * @param  \App\Http\Requests\StoreTransactionLogsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store( $transactions_id, $product_list)
+    public static function store( $transactions_id, $product_list)
     {
         TransactionLogs::create( $this->prepIntert( $transactions_id, $product_list ) );
     }
