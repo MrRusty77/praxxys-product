@@ -9,6 +9,8 @@ class TransactionLogs extends Model
 {
     use HasFactory;
 
+    protected $table = 'transaction_log';
+
     protected $fillable = ['name', 'transaction_id', 'product_id', 'qty', 'price', 'total_price'];
 
 

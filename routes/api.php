@@ -10,7 +10,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\CartController;
-// use App\Http\Controllers\BlogsController;
+use App\Http\Controllers\TransactionsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -49,6 +50,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/category/remove', [CategoriesController::class, 'removeCategory']);
 
     // Route::get('/blogs', [BlogsController::class, 'search']);
+    Route::get('/product/show', [ProductController::class, 'show']);
+    Route::post('/product/show', [ProductController::class, 'show']);
     Route::get('/product/search', [ProductController::class, 'search']);
     Route::post('/product/search', [ProductController::class, 'search']);
     Route::post('/product/AddOrUpdate', [ProductController::class, 'AddOrUpdate']);
@@ -62,5 +65,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // Route::get('/cart/update', [CartController::class, 'updateCart']);
     Route::post('/cart/update', [CartController::class, 'updateCart']);
     Route::post('/cart/remove', [CartController::class, 'destroy']);
+    
+    Route::put('/transaction', [TransactionsController::class, 'store']);
 
 });

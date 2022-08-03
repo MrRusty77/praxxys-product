@@ -24,10 +24,10 @@ class StoreTransactionsRequest extends FormRequest
     public function rules()
     {
         return [
-            'total_purchase' => 'required|min:1',
-            'total_paid' => 'required|min:1',
-            'product_list.*.product_id' => 'required|numeric|min:0',
-            'product_list.*.qty' => 'required|numeric|min:0',
+            'total_amount' => 'required|min:1',
+            'total_items' => 'required|min:1',
+            'products.*.product.id' => 'required|numeric|min:1',
+            'products.*.qty' => 'required|numeric|min:1',
         ];
     }
 }

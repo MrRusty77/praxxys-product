@@ -20,6 +20,23 @@ class ProductController extends Controller
         //
     }
 
+	public function show(Request $request )
+	{
+		$product = Product::where('status', 'active')->with('images');
+
+		$product->when( isset( $request->keyword ), function ($query) use ( $request ) {
+
+			$keyword = $request->keyword;
+
+			return $query->where(function ($query) use ($keyword) {
+				$query->orWhere('product.name', 'LIKE', "%$keyword%");
+				// ->orWhere('product.code', 'LIKE', "%$keyword%");``
+			});;
+		});
+
+		return $product->groupBy('product.id')->paginate(20);
+	}
+
     public function search( Request $data )
     {
         $data = $data->all();
@@ -35,6 +52,7 @@ class ProductController extends Controller
 			'p.date_and_time',
 			'c.id as category_id',
 			'c.name as category',
+			'i.path as path',
 		);
 
         if( isset( $data['keyword'] ) )
@@ -47,7 +65,7 @@ class ProductController extends Controller
             });
 		}
 
-        return $product->paginate(10);
+        return $product->groupBy('p.id')->paginate(10);
 			
     }
 

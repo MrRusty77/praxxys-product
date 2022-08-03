@@ -13,7 +13,7 @@ class TransactionLogs extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_log', function (Blueprint $table) {
+        Schema::create('transaction_logs', function (Blueprint $table) {
             $table->id();
             // $table->unsignedBigInteger('transaction_id');
             // $table->foreign('transaction_id')->references('id')->on('transations')->constrained()->onDelete('cascade');

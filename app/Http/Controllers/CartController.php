@@ -2,16 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\DestroyCartRequest;
 use GuzzleHttp\Psr7\Response;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
+use App\Models\Cart;
+use App\Services\CartService;
 
 class CartController extends Controller
 {
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,25 +42,15 @@ class CartController extends Controller
     public function updateCart(StoreCartRequest $request, Cart $cart )
     {
 
-        $inCart = $this->CheckInCart($request, $cart);
+        $inCart =  $this->cartService->CheckInCart($request, $cart);
         
         if($inCart->count() === 0)
         {
-            $this->create( $request );
+            return $this->cartService->create( $request );
         } 
-        else 
-        {
-            return $this->updateProductQuantity($request, $inCart->first());
-        }
-
-
-    }
-
-    protected function CheckInCart($request, Cart $cart)
-    { 
-        return $cart::where('product_id', $request->product_id)
-                ->where('users_id', Auth::user()->id)
-                ->where('status', 'active');
+        
+        return $this->cartService->updateProductQuantity($request, $inCart->first());
+    
     }
 
     /**
@@ -58,15 +59,15 @@ class CartController extends Controller
      * @param  \App\Http\Requests\StoreCartRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function create($request)
+    public function add($request)
     {
-        $cart = new Cart;
-        $cart->user_id = Auth::user()->id;
-        $cart->product_id = $request->product_id;
-        $cart->qty = $request->qty;
-        $cart->save();
+        // $cart = new Cart;
+        // $cart->user_id = Auth::user()->id;
+        // $cart->product_id = $request->product_id;
+        // $cart->qty = $request->qty;
+        // $cart->save();
 
-        return $cart;
+        // return $cart;
     }
 
     /**
@@ -96,27 +97,7 @@ class CartController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Models\Cart  $cart
-     */
-    public function updateProductQuantity($request, $inCart)
-    {
-        $cart = Cart::find( $inCart->id );
-
-        if( $request->type === 'adding' )
-        {
-            $cart->qty += $request->qty;
-        }
-        else 
-        {
-            $cart->qty = $request->qty;
-
-        }
-        return $cart->save();
-    }
-
+   
     /**
      * Remove the specified resource from storage.
      *
@@ -127,30 +108,10 @@ class CartController extends Controller
     {
 
         $request->validate([
-            'id' => ['required', 'min:1'],
-            'status' => ['required'],
+            'id' => ['required', 'min:1']
         ]);
 
-        try {
-
-            $cart = Cart::find($request->id);
-
-            $cart->status = 'delete';
-            $cart->save();
-
-            return response()->json( [
-                'message' => 'Succesfully removed ' . $request->product['name'],
-            ], 200);
-
-        } 
-        catch (\Illuminate\Database\QueryException $exception) 
-        {
-            response()->json([
-                'message' => 'Unable to removed ' . $request->product['name'],
-            ], 400);
-        }
-
-
-        
+        return $this->cartService->destroy($request);
+ 
     }
 }

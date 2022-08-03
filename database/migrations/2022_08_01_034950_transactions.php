@@ -17,13 +17,11 @@ class Transactions extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             // $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->float('total_purchase', 100, 2)->default(0);
-            $table->int('card_number', 16);
-            $table->int('expiry_month', 2);
-            $table->int('expiry_year', 4);
-            $table->int('cvv', 3);
-            $table->string('payment_status', 6)->default('failed');
+            $table->unsignedBigInteger('users_id')->references('id')->on('users');
+            $table->text('code')->nullable(true);
+            $table->float('total_amount', 100, 2)->default(0);
+            $table->integer('total_items')->default(0);
+            $table->string('payment_status', 7)->default('pending');
             $table->dateTime('date_purchased')->nullable(true);
             $table->string('status', 16)->default('active');
             $table->timestamps();

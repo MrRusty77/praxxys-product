@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\UsersController;
+
+use App\Http\Controllers\TransactionsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,11 +24,17 @@ Route::get('/', function () {
     return view("app");
 });
 
-// Route::get( '/cart', [ CartController::class, 'show' ] );
+Route::get('/mayaPayment', [TransactionsController::class, 'mayaPayment' ] );
+
+Route::get('/test', function(){
+    return view("paymentMessage", [ 'status' => 'fail' ]);
+} );
+
+
 // Route::get( '/cart/update', [ CartController::class, 'UpdateCart' ] );
 // Route::post( '/cart/update', [ CartController::class, 'UpdateCart' ] );
 
-Route::get('/createdDev', [UsersController::class, 'createdDev']);
+// Route::get('/createdDev', [UsersController::class, 'createdDev']);
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');

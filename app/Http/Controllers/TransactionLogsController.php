@@ -35,19 +35,25 @@ class TransactionLogsController extends Controller
      * @param  \App\Http\Requests\StoreTransactionLogsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public static function store( $transactions_id, $product_list)
-    {
-        TransactionLogs::create( $this->prepIntert( $transactions_id, $product_list ) );
-    }
+    // public static function store($transactions_id, $product_list)
+    // {
+    //     TransactionLogs::create(self::prepIntert($transactions_id, $product_list));
+    // }
 
-    protected function prepIntert($transactions_id, $product_list)
-    {
-        foreach ($product_list as $value) {
-            $value['transaction_id'] = $transactions_id;
-        }
+    // protected function prepIntert($transactions_id, $product_list)
+    // {
+    //     $temp_array = [];
 
-        return $product_list;
-    }
+    //     foreach ($product_list as $value) {
+    //         $temp_array['transaction_id'] = $transactions_id;
+    //         $temp_array['product_id'] = $value['product']['id'];
+    //         $temp_array['qty'] = $value['qty'];
+    //         $temp_array['price'] = $value['product']['price'];
+    //         $temp_array['total_price'] = $value['product']['price'] * $value['qty'];
+    //     }
+
+    //     return $temp_array;
+    // }
 
     /**
      * Display the specified resource.

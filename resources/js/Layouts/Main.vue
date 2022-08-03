@@ -68,13 +68,19 @@
                         </router-link>
                     </li>
                     <li>
+                        <router-link  to="/catalogue" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <shopping-icon class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                            <span class="flex-1 ml-3 whitespace-nowrap">Catalogue</span>
+                        </router-link>
+                    </li>
+                    <li>
                         <router-link  to="/cart" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <archive-icon class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                            <cart-icon class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                             <span class="flex-1 ml-3 whitespace-nowrap">Cart</span>
                         </router-link>
                     </li>
                     <li>
-                        <router-link  to="/categories" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <router-link to="/categories" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                             <tag-icon class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                             <span class="flex-1 ml-3 whitespace-nowrap">Categories</span>
                         </router-link>
@@ -105,6 +111,8 @@ import ArchiveIcon from 'vue-material-design-icons/Archive.vue';
 import TagIcon from 'vue-material-design-icons/Tag.vue';
 import VideoIcon from 'vue-material-design-icons/Youtube.vue';
 import CartIcon from 'vue-material-design-icons/cart.vue';
+import BasketIcon from 'vue-material-design-icons/Basket.vue';
+import ShoppingIcon from 'vue-material-design-icons/Shopping.vue';
 
 import { ElNotification } from 'element-plus';
 
@@ -153,6 +161,8 @@ export default {
         TagIcon,
         VideoIcon,
         CartIcon,
+        BasketIcon,
+        ShoppingIcon,
     }
 }
 </script>

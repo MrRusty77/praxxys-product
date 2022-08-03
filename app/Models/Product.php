@@ -30,10 +30,12 @@ class Product extends Model
     public function get( $data = null )
     {
         $product = DB::table('product as p')
-            ->leftJoin( 'categories as c', 'c.id', '=', 'p.category_id' );
+			->leftJoin('images as i', 'p.id', '=', 'i.product_id' )
+            ->leftJoin( 'categories as c', 'c.id', '=', 'p.category_id' )
+			;
 
         if( !isset( $data['status'] ) )
-            $product->where( 'p.status', '=', 'active' );
+            $product->where( 'p.status', '=', '"active"' );
         else
             $product->where( 'p.status', '=', $data['status'] );
         

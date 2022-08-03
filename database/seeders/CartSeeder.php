@@ -22,7 +22,87 @@ class CartSeeder extends Seeder
     {
 
         Cart::create([
-            'user_id' => Users::all()->random()->id,
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
+            'product_id' => Product::all()->random()->id,
+            'qty' => $faker->randomDigit(),
+        ]);
+        Cart::create([
+            'users_id' => Users::all()->random()->id,
             'product_id' => Product::all()->random()->id,
             'qty' => $faker->randomDigit(),
         ]);

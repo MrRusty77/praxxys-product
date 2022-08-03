@@ -4,8 +4,62 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2078f1781001a3dd7b04631fa65fca3",
+    "content-hash": "5a25fb0507fd8eff682ffa8a228698a7",
     "packages": [
+        {
+            "name": "aceraven777/laravel-paymaya",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aceraven777/laravel-paymaya.git",
+                "reference": "c9c28676137c8bd9d3f1b552e9782a937ee6b235"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aceraven777/laravel-paymaya/zipball/c9c28676137c8bd9d3f1b552e9782a937ee6b235",
+                "reference": "c9c28676137c8bd9d3f1b552e9782a937ee6b235",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "illuminate/support": "^5.0|^6.0|^7.0|^8.0",
+                "paymaya/paymaya-sdk": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Aceraven777\\PayMaya\\PayMayaServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Aceraven777\\PayMaya\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aristheo Lacdao",
+                    "email": "aceraven777@gmail.com"
+                }
+            ],
+            "description": "PayMaya Payment integration to Laravel",
+            "support": {
+                "issues": "https://github.com/aceraven777/laravel-paymaya/issues",
+                "source": "https://github.com/aceraven777/laravel-paymaya/tree/v1.1.2"
+            },
+            "time": "2022-06-22T01:08:00+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.1.1",
@@ -2197,6 +2251,61 @@
                 "source": "https://github.com/opis/closure/tree/3.6.3"
             },
             "time": "2022-01-27T09:35:39+00:00"
+        },
+        {
+            "name": "paymaya/paymaya-sdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PayMaya/PayMaya-PHP-SDK.git",
+                "reference": "8f683069bfe9ddebba961fa8df28b9ce5139854c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PayMaya/PayMaya-PHP-SDK/zipball/8f683069bfe9ddebba961fa8df28b9ce5139854c",
+                "reference": "8f683069bfe9ddebba961fa8df28b9ce5139854c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.3.0",
+                "psr/log": "^1.0.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PayMaya": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PayMaya Engineering",
+                    "email": "paymayadevs@voyager.ph",
+                    "homepage": "https://developers.paymaya.com/"
+                }
+            ],
+            "description": "PHP SDK for PayMaya APIs. Accept credit and debit card payments on your web app.",
+            "homepage": "https://github.com/PayMaya/PayMaya-PHP-SDK",
+            "keywords": [
+                "paymaya",
+                "payments",
+                "rest",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/PayMaya/PayMaya-PHP-SDK/issues",
+                "source": "https://github.com/PayMaya/PayMaya-PHP-SDK/tree/master"
+            },
+            "time": "2020-06-30T09:22:55+00:00"
         },
         {
             "name": "phpoption/phpoption",

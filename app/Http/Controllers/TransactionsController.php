@@ -2,13 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transactions;
 use App\Http\Requests\StoreTransactionsRequest;
 use App\Http\Requests\UpdateTransactionsRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\MayaRequest;
+
+use App\Services\CartService;
+use App\Services\TransactionService;
+
+use App\Models\Transactions;
 
 class TransactionsController extends Controller
 {
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(CartService $cartService, TransactionService $transactionService)
+    {
+        $this->cartService = $cartService;
+        $this->transactionService = $transactionService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,30 +52,17 @@ class TransactionsController extends Controller
      */
     public function store(StoreTransactionsRequest $request)
     {
-        $transaction = new Transactions;
-        
-        $transaction->user_id = Auth::user()->id;
-        $transaction->total_purchase = $request->total_purchase;
-        $transaction->total_paid = $request->total_paid;
-        $transaction->card_number = $request->card_number; 
-        $transaction->expiry_month = $request->expiry_month; 
-        $transaction->expiry_year = $request->expiry_year; 
-        $transaction->cvv = $request->cvv; 
-        $transaction->payment_status = $this->PaymayaPayment($request); 
-
-        $transaction->save();
-
-        TransactionLogsController::store( $transaction->id, $request->checkout );
-
-        
+        return $this->transactionService->store($request);
     }
 
-    protected function PaymayaPayment( $request )
+    public function mayaPayment(MayaRequest $request)
     {
-        //make contract/intercafe Payments
-        return 'success';
+        $this->transactionService->update_payment($request);
+
+        return view("paymentMessage", ['status' => $request->status]);
     }
 
+    
     /**
      * Display the specified resource.
      *
