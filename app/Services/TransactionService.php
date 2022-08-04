@@ -6,6 +6,8 @@ namespace App\Services;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use App\Maya\MayaCheckout;
+
 use App\Services\CartService;
 
 use App\Models\Transactions;
@@ -14,9 +16,10 @@ use App\Models\TransactionLogs;
 class TransactionService
 {
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService, MayaCheckout $mayaCheckout)
     {
         $this->cartService = $cartService;
+        $this->mayaCheckout = $mayaCheckout;
     }
 
     public function store($request)
@@ -35,6 +38,8 @@ class TransactionService
         $this->storeTransactionLogs($transaction->id, $request->products);
 
         $this->cartService->remove_items((object) $request->products);
+
+        // return $this->mayaCheckout->checkout($transaction, $request);
 
         return [
             'code' => $transaction->code,

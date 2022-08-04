@@ -109,7 +109,7 @@ class CartController extends Controller
     {
 
         $request->validate([
-            'id' => ['required', 'min:1']
+            'cart_id' => ['required', 'min:1']
         ]);
 
         return $this->cartService->destroy($request);

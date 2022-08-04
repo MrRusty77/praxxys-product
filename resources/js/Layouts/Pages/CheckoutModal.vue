@@ -145,9 +145,9 @@ export default {
                 
                 "items": [],
                 "redirectUrl": {
+                    "failure": `${window.location.origin}/mayaPayment?hash=${data.hash}&status=failure&code=${data.code}`,
                     "success": `${window.location.origin}/mayaPayment?hash=${data.hash}&status=success&code=${data.code}`,
-                    "failure": `${window.location.origin}/mayaPayment?hash=${data.hash}&status=failure=${data.code}`,
-                    "cancel": `${window.location.origin}/mayaPayment?hash=${data.hash}&status=cancel=${data.code}`
+                    "cancel": `${window.location.origin}/mayaPayment?hash=${data.hash}&status=cancel=${data.code}`,
                 },
                 "requestReferenceNumber": `${data.code}`,
                 "metadata": {}
@@ -186,8 +186,6 @@ export default {
                     },
                 );
             })
-
-            console.log(checkout_info);
 
             PayMayaSDK.init('pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah', true);
             PayMayaSDK.createCheckout(checkout_info).then(
