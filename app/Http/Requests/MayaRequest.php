@@ -25,8 +25,8 @@ class MayaRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|min:60|max:60',
-            'status' => [ 'required', Rule::in(['success', 'failure']) ],
+            'hash' => 'required|min:60|max:60',
+            'status' => ['required', Rule::in(['success', 'failure'])],
         ];
     }
 }

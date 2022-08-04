@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Requests\StoreTransactionsRequest;
 use App\Http\Requests\UpdateTransactionsRequest;
 use App\Http\Requests\MayaRequest;
 
 use App\Services\CartService;
 use App\Services\TransactionService;
+
+use App\Http\Resources\TransactionsResource;
 
 use App\Models\Transactions;
 
@@ -59,19 +65,37 @@ class TransactionsController extends Controller
     {
         $this->transactionService->update_payment($request);
 
-        return view("paymentMessage", ['status' => $request->status]);
+        return view("paymentMessage", ['status' => $request->status, 'code' => $request->code]);
     }
 
-    
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Transactions  $transactions
      * @return \Illuminate\Http\Response
      */
-    public function show(Transactions $transactions)
+    public function show(Request $request)
     {
-        //
+        $transactions = Transactions::where('users_id', Auth::user()->id)
+            ->where('transactions.status', '!=', 'delete')
+            ->with('transactionLogs.product.images')
+            ->orderBy('transactions.date_purchased', 'DESC');
+
+        $transactions->when(isset($request->keyword), function ($query) use ($request) {
+
+            $keyword = $request->keyword;
+
+            return $query->where(function ($query) use ($keyword) {
+                $query->orWhere('transactions.code', 'LIKE', "%$keyword%");
+                // ->orWhere('product.code', 'LIKE', "%$keyword%");``
+            });;
+        });
+
+
+        return ($transactions->paginate(20));
+        // $transactions = Transactions::with('transactionLogs')->get();
+
+        // return TransactionsResource::collection($transactions);
     }
 
     /**

@@ -1,22 +1,22 @@
 <template>
     <div>
-        <el-dialog v-model="openModal" width="90%" title="Payment Checkout">
-            <div class="border-b-2" v-for=" products in checkout.products ">
+        <el-dialog v-model="openModal" width="90%" :before-close="close_modal" title="Payment Checkout">
+
+            <div class="border-b-2" v-for=" product in checkout.products " :key="product.cart_id">
                 <div class="inline-flex w-full">
                     <div class="w-2/12">
-                        <img class="!h-20 mx-auto" :src="'images/' + products.product.images[0].path"
-                            alt="product image" />
+                        <img class="!h-20 mx-auto" :src="'images/' + product.image_path" alt="product image" />
                     </div>
                     <div class="inline-block w-10/12">
                         <div class="w-full text-2xl">
-                            {{products.product.name}}
+                            {{product.name}}
                         </div>
                         <div class="inline-flex w-full my-auto text-xl py-auto">
                             <div class="w-1/2">
-                                P {{products.product.price}} x {{products.qty}}
+                                P {{product.price}} x {{product.qty}}
                             </div>
                             <div class="float-right w-1/2 px-6 text-right">
-                                P {{products.product.price * products.qty }}
+                                P {{product.price * product.qty }}
                             </div>
                         </div>
                     </div>
@@ -57,6 +57,11 @@ export default {
             }
         }
     },
+    watch: {
+        openModal: function () {
+            console.log(this.openModal)
+        }
+    },
     data() {
         return {
             processing: false
@@ -90,7 +95,7 @@ export default {
                 });
         },
         
-        async process_paymaya(transaction_code) {
+        async process_paymaya(data) {
             const checkout_info = {
                 "totalAmount": {
                     "value": this.checkout.total_amount,
@@ -140,11 +145,11 @@ export default {
                 
                 "items": [],
                 "redirectUrl": {
-                    "success": `${window.location.origin }/mayaPayment?code=${ transaction_code }&status=success`,
-                    "failure": `${window.location.origin }/mayaPayment?code=${ transaction_code }&status=failure`,
-                    "cancel": `${window.location.origin }/mayaPayment?code=${ transaction_code }&status=cancel`
+                    "success": `${window.location.origin}/mayaPayment?hash=${data.hash}&status=success&code=${data.code}`,
+                    "failure": `${window.location.origin}/mayaPayment?hash=${data.hash}&status=failure=${data.code}`,
+                    "cancel": `${window.location.origin}/mayaPayment?hash=${data.hash}&status=cancel=${data.code}`
                 },
-                "requestReferenceNumber": "1551191039",
+                "requestReferenceNumber": `${data.code}`,
                 "metadata": {}
             };
 
@@ -154,43 +159,47 @@ export default {
             this.checkout.products.forEach((product, index) => {
                 checkout_info.items.push(
                     {
-                        "name": product.product.name,
+                        "name": product.name,
                         "quantity": product.qty,
                         "code": "CVG-096732",
-                        "description": product.product.description ? product.product.description : "no description",
+                        "description": product.description ? product.description : "no description",
                         "amount": {
-                            "value": product.qty * product.product.price,
+                            "value": product.qty * product.price,
                             "details": {
                                 "discount": 0,
                                 "serviceCharge": 0,
                                 "shippingFee": 0,
                                 "tax": 0,
-                                "subtotal": product.qty * product.product.price
+                                "subtotal": product.qty * product.price
                             }
                         },
                         "totalAmount": {
-                            "value": product.qty * product.product.price,
+                            "value": product.qty * product.price,
                             "details": {
                                 "discount": 0,
                                 "serviceCharge": 0,
                                 "shippingFee": 0,
                                 "tax": 0,
-                                "subtotal": product.qty * product.product.price
+                                "subtotal": product.qty * product.price
                             }
                         }
                     },
                 );
             })
 
-            PayMayaSDK.init('pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah', true);
-            PayMayaSDK.createCheckout(checkout_info);
+            console.log(checkout_info);
 
-            this.processing = false
+            PayMayaSDK.init('pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah', true);
+            PayMayaSDK.createCheckout(checkout_info).then(
+                function(params) {
+                    console.log(params);
+                }
+            );
+
         },
 
         close_modal(){
-            this.openModal = false;
-            this.$emit('openModal', openModal)
+            this.$emit('openCheckout', false)
         }
 
     },

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\DestroyCartRequest;
-use GuzzleHttp\Psr7\Response;
+
+use App\Http\Resources\CartResource;
 
 use Illuminate\Http\Request;
 
@@ -39,18 +42,16 @@ class CartController extends Controller
      * @param  \App\Http\Requests\StoreCartRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateCart(StoreCartRequest $request, Cart $cart )
+    public function updateCart(StoreCartRequest $request, Cart $cart)
     {
 
-        $inCart =  $this->cartService->CheckInCart($request, $cart);
-        
-        if($inCart->count() === 0)
-        {
-            return $this->cartService->create( $request );
-        } 
-        
-        return $this->cartService->updateProductQuantity($request, $inCart->first());
-    
+        $cart = $this->cartService->checkInCart($request, $cart);
+
+        if ($cart->count() === 0) {
+            return $this->cartService->create($request);
+        }
+
+        return $this->cartService->updateProductQuantity($request, $cart->first());
     }
 
     /**
@@ -78,12 +79,12 @@ class CartController extends Controller
      */
     public function show(Cart $cart)
     {
-        $users_cart = Cart::where('users_id', 2)
+        $users_cart = $cart->where('users_id', Auth::user()->id)
             ->with('product.images')
             ->where('cart.status', 'active')
-            ->paginate(20); 
+            ->paginate(20);
 
-        return $users_cart;   
+        return CartResource::collection($users_cart);
     }
 
     /**
@@ -97,7 +98,7 @@ class CartController extends Controller
         //
     }
 
-   
+
     /**
      * Remove the specified resource from storage.
      *
@@ -112,6 +113,5 @@ class CartController extends Controller
         ]);
 
         return $this->cartService->destroy($request);
- 
     }
 }

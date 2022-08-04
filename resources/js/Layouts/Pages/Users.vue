@@ -166,7 +166,6 @@ export default {
     },
     data() {
         return {
-            keyword: '',
             top: 'top',
             pagination: {
                 current_page: 1

@@ -42,6 +42,10 @@
                     @endif
                 </h6>
 
+                <h6 class="mb-2 text-xl font-bold text-center text-gray-800 md:text-3xl">
+                    <span>Reference number: {{ $code }} </span>
+                </h6>
+
                 @if( $status == 'success' )
                 <p class="mb-8 text-center text-gray-500 md:text-lg">
                     We have recieved your payment from Maya
@@ -60,7 +64,7 @@
 
     <script>
         setTimeout(() => {
-            window.location.replace(window.location.origin + "/#/cart");
+            window.location.replace(`${window.location.origin}/#/transactions?search=${ {{$code}} }`);
         }, 3000);
     </script>
 </body>

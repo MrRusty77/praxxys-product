@@ -21,7 +21,7 @@
 
             </div>
             <div>
-                <el-button class="w-full" @click="pagination.current_page++" :loading="processing">Load more</el-button>
+                <el-button class="w-full" @click="search(pagination.meta.current_page++)" :disabled=" pagination.meta.current_page == pagination.meta.last_page " :loading="processing">Load more</el-button>
             </div>
         </div>
 
@@ -34,18 +34,18 @@
                 <div class="border-b" v-for="product in cart.data">
                     <div class="inline-flex w-full">
                         <div class="w-2/12">
-                            <img class="mx-auto !h-14" :src="'images/' + product.product.images[0].path" alt="product image" />
+                            <img class="mx-auto !h-14" :src="'images/' + product.image_path" alt="product image" />
                         </div>
                         <div class="inline-block w-10/12">
                             <div class="w-full text-2xl">
-                                {{product.product.name}}
+                                {{product.name}}
                             </div>
                             <div class="inline-flex w-full my-auto text-xl py-auto">
                                 <div class="w-1/2">
-                                    P {{product.product.price}} x {{product.qty}}
+                                    P {{product.price}} x {{product.qty}}
                                 </div>
                                 <div class="float-right w-1/2 px-6 text-right">
-                                    P {{product.product.price * product.qty }}
+                                    P {{product.price * product.qty }}
                                 </div>
                             </div>
                         </div>
@@ -79,14 +79,19 @@ export default {
             adding: false,
             product_added: false,
             pagination: {
-                total: 1,
-                current_page: 1,
-                per_page: 1,
+                data:[],
+                meta: {
+                    total: 1,
+                    current_page: 1,
+                    per_page: 1,
+                }
             },
             cart: {
-                total: 1,
-                current_page: 1,
-                per_page: 1,
+                meta: {
+                    total: 1,
+                    current_page: 1,
+                    per_page: 1,
+                }
             },
             cart_drawer: false,
         }
@@ -111,9 +116,9 @@ export default {
 
             this.processing = true;
 
-            if (selectedPage !== undefined) this.pagination.current_page = selectedPage;
+            if (selectedPage !== undefined) this.pagination.meta.current_page = selectedPage;
 
-            var url = '/api/product/show?page=' + this.pagination.current_page;
+            var url = '/api/product/show?page=' + this.pagination.meta.current_page;
 
             if (this.keywordSearch)
                 url += '&keyword=' + this.keywordSearch;
@@ -142,7 +147,7 @@ export default {
 
             let data = {
                 type: 'adding',
-                product_id: product.id,
+                product_id: product.product_id,
                 qty: 1,
             }
 
@@ -172,7 +177,7 @@ export default {
 
             if (this.selectedPage !== undefined) this.cart.current_page = selectedPage;
 
-            url += '?page=' + this.cart.current_page;
+            url += '?page=' + this.cart.meta.current_page;
 
             await this.$axios.post(url)
                 .then(({ data }) => {
@@ -190,7 +195,6 @@ export default {
 
             this.cart_timeout = setTimeout(function () { 
                 this.product_added = false;
-                alert('hello');
              }, 1000)
         },
 

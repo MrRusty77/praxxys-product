@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CartService {
 
-    public function CheckInCart($request, Cart $cart)
+    public function checkInCart($request, Cart $cart)
     {
         return $cart::where('product_id', $request->product_id)
             ->where('users_id', Auth::user()->id)
@@ -48,6 +48,7 @@ class CartService {
      */
     public function updateProductQuantity($request, $inCart)
     {
+
         try {
             $cart = Cart::find($inCart->id);
 
@@ -78,7 +79,7 @@ class CartService {
     {
         try {
 
-            $cart = Cart::find($request->id);
+            $cart = Cart::find($request->cart_id);
 
             $cart->status = 'delete';
             $cart->save();

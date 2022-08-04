@@ -11,7 +11,8 @@ use App\Services\CartService;
 use App\Models\Transactions;
 use App\Models\TransactionLogs;
 
-class TransactionService {
+class TransactionService
+{
 
     public function __construct(CartService $cartService)
     {
@@ -23,7 +24,9 @@ class TransactionService {
         $transaction = new Transactions;
 
         $transaction->users_id = Auth::user()->id;
-        $transaction->code = Hash::make(date('Y-m-d H:i:s'));
+        $transaction->code = rand(1000000000, 9999999999);
+        $transaction->hash = Hash::make(date('Y-m-d H:i:s'));
+        $transaction->date_purchased = date('Y-m-d H:i:s');
         $transaction->total_amount = $request->total_amount;
         $transaction->total_items = $request->total_items;
 
@@ -33,25 +36,33 @@ class TransactionService {
 
         $this->cartService->remove_items((object) $request->products);
 
-        return $transaction->code;
+        return [
+            'code' => $transaction->code,
+            'hash' => $transaction->hash,
+        ];
     }
 
 
-    protected function storeTransactionLogs($transactions_id, $product_list)
+    protected function storeTransactionLogs($transaction_id, $product_list)
     {
-        TransactionLogs::create(self::prepIntert($transactions_id, $product_list));
+        TransactionLogs::insert(self::prepIntert($transaction_id, $product_list));
     }
 
-    protected function prepIntert($transactions_id, $product_list)
+    protected function prepIntert($transaction_id, $product_list)
     {
         $temp_array = [];
 
         foreach ($product_list as $value) {
-            $temp_array['transaction_id'] = $transactions_id;
-            $temp_array['product_id'] = $value['product']['id'];
-            $temp_array['qty'] = $value['qty'];
-            $temp_array['price'] = $value['product']['price'];
-            $temp_array['total_price'] = $value['product']['price'] * $value['qty'];
+            array_push(
+                $temp_array,
+                [
+                    'transaction_id' => $transaction_id,
+                    'product_id' => $value['product_id'],
+                    'qty' => $value['qty'],
+                    'price' => $value['price'],
+                    'total_price' => $value['price'] * $value['qty'],
+                ]
+            );
         }
 
         return $temp_array;
@@ -59,7 +70,7 @@ class TransactionService {
 
     public function update_payment($request)
     {
-        $transaction = Transactions::where('code', $request->code)
+        $transaction = Transactions::where('hash', $request->hash)
             ->where('payment_status', 'pending')
             ->firstOrFail();
 
@@ -67,5 +78,4 @@ class TransactionService {
 
         $transaction->save();
     }
-
 }

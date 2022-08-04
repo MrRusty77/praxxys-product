@@ -9,18 +9,18 @@ class TransactionLogs extends Model
 {
     use HasFactory;
 
-    protected $table = 'transaction_log';
+    protected $table = 'transaction_logs';
 
     protected $fillable = ['name', 'transaction_id', 'product_id', 'qty', 'price', 'total_price'];
 
 
     public function transactionLogs()
     {
-        return $this->belongsTo(Transactions::class);
+        return $this->belongsTo(Transactions::class, 'transaction_id');
     }
 
-    public function products()
+    public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

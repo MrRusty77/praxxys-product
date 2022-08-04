@@ -61,11 +61,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/images/get', [ImagesController::class, 'get']);
 
     Route::get('/cart/search', [CartController::class, 'show']);
-    Route::post('/cart/search', [CartController::class, 'show']);
-    // Route::get('/cart/update', [CartController::class, 'updateCart']);
+    Route::post('/cart/search', [CartController::class, 'show']);\
     Route::post('/cart/update', [CartController::class, 'updateCart']);
     Route::post('/cart/remove', [CartController::class, 'destroy']);
     
+    Route::get('/transaction', [TransactionsController::class, 'show']);
+    Route::post('/transaction', [TransactionsController::class, 'show']);
     Route::put('/transaction', [TransactionsController::class, 'store']);
 
 });

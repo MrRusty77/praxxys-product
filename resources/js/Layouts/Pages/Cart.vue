@@ -17,18 +17,17 @@
                         </div>
 
                         <div class="w-3/12 my-auto">
-                            <img class="!h-20 mx-auto" :src="'images/' + product.product.images[0].path"
-                                alt="product image" />
+                            <img class="!h-20 mx-auto" :src="'images/' + product.image_path" alt="product image" />
                         </div>
 
                         <div class="w-7/12 my-auto">
                             <div class="inline-flex w-full py-2 text-4xl">
                                 <div class="w-1/2 text-left">
-                                    {{ product.product.name }}
+                                    {{ product.name }}
                                 </div>
 
                                 <div class="w-1/2 px-2 text-right">
-                                    P {{ product.product.price }}
+                                    P {{ product.price }}
                                 </div>
                             </div>
 
@@ -75,7 +74,7 @@
 
         </div>
 
-        <checkout-modal @openModal="( openModal ) => openModal = openModal" :openModal="openModal" :checkout="checkout">
+        <checkout-modal @openCheckout="( value ) => openModal = value" :openModal="openModal" :checkout="checkout">
         </checkout-modal>
 
     </div>
@@ -103,6 +102,11 @@ export default {
     created() {
         this.$emit('response', 'Cart')
         // this.$emit('search', true)
+    },
+    watch: {
+        openModal: function () {
+            console.log(this.openModal)
+        }
     },
     data() {
         return {
@@ -159,13 +163,8 @@ export default {
             this.update_timeout = setTimeout(this.update_product_qty(product), 2000);
         },
         async update_product_qty(product){
-
-            let data = {
-                product_id: product.product.id,
-                qty: product.qty,
-            }
-
-            await this.$axios.post('/api/cart/update', data)
+ 
+            await this.$axios.post('/api/cart/update', product)
                 .then(({ data }) => {
                     this.compute_total();
                 }).catch(({ response: { data } }) => {
@@ -210,7 +209,7 @@ export default {
         add_to_checkout( product ) {
 
             let index = this.checkout.products.findIndex(function (checkout) {
-                return checkout.id === product.id;
+                return checkout.cart_id === product.cart_id;
             })
 
             if( index < 0 ) {
@@ -224,7 +223,7 @@ export default {
         },
         compute_total(){
             this.checkout.total_amount = this.checkout.products.reduce(function (_this, val) {
-                return _this + val.qty * val.product.price
+                return _this + val.qty * val.price
             }, 0);
 
             this.checkout.total_items = this.checkout.products.reduce(function (_this, val) {
@@ -232,7 +231,7 @@ export default {
             }, 0);
         },
         open_modal(){
-            this.openModal = true 
+            this.openModal = true;
         }
     },
 }

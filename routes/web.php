@@ -26,18 +26,5 @@ Route::get('/', function () {
 
 Route::get('/mayaPayment', [TransactionsController::class, 'mayaPayment' ] );
 
-Route::get('/test', function(){
-    return view("paymentMessage", [ 'status' => 'fail' ]);
-} );
-
-
-// Route::get( '/cart/update', [ CartController::class, 'UpdateCart' ] );
-// Route::post( '/cart/update', [ CartController::class, 'UpdateCart' ] );
-
-// Route::get('/createdDev', [UsersController::class, 'createdDev']);
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 use App\Models\Product;
 use App\Models\Images;
-use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\ProductsResouce;
 
 class ProductController extends Controller
 {
@@ -34,7 +36,9 @@ class ProductController extends Controller
 			});;
 		});
 
-		return $product->groupBy('product.id')->paginate(20);
+		$product->groupBy('product.id');
+
+		return ProductsResouce::collection($product->paginate(20));
 	}
 
     public function search( Request $data )

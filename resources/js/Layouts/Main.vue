@@ -80,6 +80,12 @@
                         </router-link>
                     </li>
                     <li>
+                        <router-link  to="/transactions" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <receipt-text-icon class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                            <span class="flex-1 ml-3 whitespace-nowrap">Transactions</span>
+                        </router-link>
+                    </li>
+                    <li>
                         <router-link to="/categories" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                             <tag-icon class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                             <span class="flex-1 ml-3 whitespace-nowrap">Categories</span>
@@ -113,6 +119,8 @@ import VideoIcon from 'vue-material-design-icons/Youtube.vue';
 import CartIcon from 'vue-material-design-icons/cart.vue';
 import BasketIcon from 'vue-material-design-icons/Basket.vue';
 import ShoppingIcon from 'vue-material-design-icons/Shopping.vue';
+import ReceiptTextIcon from 'vue-material-design-icons/Receipt.vue';
+
 
 import { ElNotification } from 'element-plus';
 
@@ -126,6 +134,11 @@ export default {
             navTitle: 'home',
             keyword: "",
             side_menu: "!bg-gray-50 dark:!bg-gray-800",
+        }
+    },
+    mounted() {
+        if (typeof this.$route.query.search !== "undefined") {
+            this.keywordSearch = this.$route.query.search;
         }
     },
     methods: {
@@ -163,6 +176,7 @@ export default {
         CartIcon,
         BasketIcon,
         ShoppingIcon,
+        ReceiptTextIcon,
     }
 }
 </script>

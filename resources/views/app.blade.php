@@ -37,7 +37,7 @@
         @endif
 
         @if(isset($message))
-            window.payment_message = "{{ $message }}";
+        window.payment_message = "{{ $message }}";
         @endif
     </script>
 
