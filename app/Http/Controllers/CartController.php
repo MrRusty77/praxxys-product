@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\StoreCartRequest;
@@ -33,7 +35,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Cart', []);
     }
 
     /**

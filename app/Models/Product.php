@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Hash;
 
 class Product extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $table = 'product';
+	protected $table = 'product';
 
 	protected $hidden = ['updated_at', 'created_at'];
 
@@ -22,69 +22,73 @@ class Product extends Model
 		return $this->hasMany(Cart::class);
 	}
 
+	public function category()
+	{
+		return $this->belongsTo(Categories::class);
+	}
+
 	public function images()
 	{
 		return $this->hasMany(Images::class);
 	}
 
-    public function get( $data = null )
-    {
-        $product = DB::table('product as p')
-			->leftJoin('images as i', 'p.id', '=', 'i.product_id' )
-            ->leftJoin( 'categories as c', 'c.id', '=', 'p.category_id' )
-			;
+	public function get($data = null)
+	{
+		$product = DB::table('product as p')
+			->leftJoin('images as i', 'p.id', '=', 'i.product_id')
+			->leftJoin('categories as c', 'c.id', '=', 'p.category_id');
 
-        if( !isset( $data['status'] ) )
-            $product->where( 'p.status', '=', '"active"' );
-        else
-            $product->where( 'p.status', '=', $data['status'] );
-        
-        if( isset( $data['name'] ) )
-            $product->where( 'p.name', '=', $data['name'] );
+		if (!isset($data['status']))
+			$product->where('p.status', '=', '"active"');
+		else
+			$product->where('p.status', '=', $data['status']);
 
-        if( isset( $data['code'] ) )
-            $product->where( 'p.code', '=', $data['code'] );
+		if (isset($data['name']))
+			$product->where('p.name', '=', $data['name']);
 
-        if( isset( $data['category_id'] ) )
-            $product->where( 'p.category_id', '=', $data['category_id'] );
+		if (isset($data['code']))
+			$product->where('p.code', '=', $data['code']);
 
-        if( isset( $data['description'] ) )
-            $product->where( 'p.description', '=', $data['description'] );
+		if (isset($data['category_id']))
+			$product->where('p.category_id', '=', $data['category_id']);
 
-        if( isset( $data['hash'] ) )
-            $product->where( 'p.hash', '=', $data['hash'] );
+		if (isset($data['description']))
+			$product->where('p.description', '=', $data['description']);
 
-        return $product;
-    }
+		if (isset($data['hash']))
+			$product->where('p.hash', '=', $data['hash']);
 
-    public static function createProduct($data) {
-        $product = new Product();
-          
-        $product->name		    = $data['name'];
-        $product->code		    = $data['code'];
-        $product->hash		    = Hash::make( $data['name'].date('Y-m-d H:i:s') );
-        $product->category_id	= $data['category_id'];
-        $product->description	= $data['description'];
-        $product->date_and_time = date('Y-m-d H:i:s', strtotime($data['date_and_time']));
-        // $product->img_path	    = $data['img_path'];
+		return $product;
+	}
 
-        $product->save();
+	public static function createProduct($data)
+	{
+		$product = new Product();
 
-        return [ 
-            "error" => null,
-            "message" => "Successfully added " . $data['name'],
+		$product->name		    = $data['name'];
+		$product->code		    = $data['code'];
+		$product->hash		    = Hash::make($data['name'] . date('Y-m-d H:i:s'));
+		$product->category_id	= $data['category_id'];
+		$product->description	= $data['description'];
+		$product->date_and_time = date('Y-m-d H:i:s', strtotime($data['date_and_time']));
+		// $product->img_path	    = $data['img_path'];
+
+		$product->save();
+
+		return [
+			"error" => null,
+			"message" => "Successfully added " . $data['name'],
 			"data" => [
 				"product_id" => $product->id,
 				"hash" => $product->hash
 			]
-        ];
-    }
+		];
+	}
 
-    public static function updateProduct( $data )
+	public static function updateProduct($data)
 	{
 
-		try
-		{
+		try {
 			$new_update = [
 				"name"          => $data['name'],
 				"category_id"	=> $data['category_id'],
@@ -94,59 +98,48 @@ class Product extends Model
 				"date_and_time"	=> date('Y-m-d H:i:s', strtotime($data['date_and_time'])),
 			];
 
-			$product = Product::where( 'hash', '=' , $data['hash'] );
+			$product = Product::where('hash', '=', $data['hash']);
 
-			if( isset( $data['status'] ) )
+			if (isset($data['status']))
 				$new_update["status"]	= $data['status'];
 
-			if( isset( $data['password'] ) )
-				$new_update["password"]	= Hash::make( $data['password'] );
+			if (isset($data['password']))
+				$new_update["password"]	= Hash::make($data['password']);
 
-			$product->update( $new_update );
+			$product->update($new_update);
 
-			return [ 
+			return [
 				"error" => null,
 				"message" => "Successfully updated " . $data['name'],
 			];
-
-		}
-		catch(Exception $e)
-		{
-			return [ 
+		} catch (Exception $e) {
+			return [
 				"error" => [
 					"server" => "Unable to save User data, Please try again later"
 				],
 				"message" => "Server error"
 			];
-
 		}
-
 	}
 
-    public static function removeProduct( $data )
+	public static function removeProduct($data)
 	{
-		try
-		{
-			$product = Product::where( 'hash', '=' , $data['hash'] );
-			
-			$product->update( [ 'status' => 'delete' ] );
+		try {
+			$product = Product::where('hash', '=', $data['hash']);
 
-			return [ 
+			$product->update(['status' => 'delete']);
+
+			return [
 				"error" => null,
 				"message" => "Successfully remove " . $data['name'],
 			];
-
-		}
-		catch(Exception $e)
-		{
-			return [ 
+		} catch (Exception $e) {
+			return [
 				"error" => [
 					"server" => "Unable to save User data, Please try again later"
 				],
 				"message" => "Server error"
 			];
-
 		}
-
 	}
 }

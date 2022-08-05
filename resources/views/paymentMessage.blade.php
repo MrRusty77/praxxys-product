@@ -64,7 +64,7 @@
 
     <script>
         setTimeout(() => {
-            window.location.replace(`${window.location.origin}/#/transactions?search=${ {{$code}} }`);
+            window.location.replace(`${window.location.origin}/transactions?search=${ {{$code}} }`);
         }, 3000);
     </script>
 </body>

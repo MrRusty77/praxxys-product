@@ -31,7 +31,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/dashboard/getNumbers', [DashboardController::class, 'getNumbers']);
 
@@ -57,6 +56,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/product/AddOrUpdate', [ProductController::class, 'AddOrUpdate']);
     Route::post('/product/uploadImg', [ProductController::class, 'uploadImg']);
     Route::post('/product/remove', [ProductController::class, 'removeProduct']);
+
 
     Route::post('/images/get', [ImagesController::class, 'get']);
 

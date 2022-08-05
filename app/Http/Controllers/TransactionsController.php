@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 use App\Http\Requests\StoreTransactionsRequest;
 use App\Http\Requests\UpdateTransactionsRequest;
@@ -37,7 +38,7 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Transactions', []);
     }
 
     /**
@@ -92,7 +93,7 @@ class TransactionsController extends Controller
         });
 
 
-        return ($transactions->paginate(20));
+        return ($transactions->paginate(10));
         // $transactions = Transactions::with('transactionLogs')->get();
 
         // return TransactionsResource::collection($transactions);

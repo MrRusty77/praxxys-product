@@ -1,44 +1,35 @@
-import { createApp } from 'vue';
-import axios from 'axios'
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/inertia-vue3'
 
 import ElementPlus from 'element-plus'
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
+import { InertiaProgress } from '@inertiajs/progress'
+
 import VuePaginationTw from "vue-pagination-tw";
 
-import router from './router';
 import store from './store';
 
-import App from './App.vue';
+InertiaProgress.init();
 
-router.beforeEach((to, from, next) => {
+createInertiaApp({
+    resolve: name => require(`./Pages/${name}`),
+    setup({ el, App, props, plugin }) {
+        const app = createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(store)
+            .use(VuePaginationTw)
+            .use(ElementPlus)
+            .use(VueAxios, axios)
+            .mount(el);
 
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-      if(!store.getters.isAuthenticated) next({ path: '/login' });
-      else next();
-   } else {
-      next();
-   }
-
-});
-
-
-const app = createApp(App);
-
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
-}
-
-
-app.config.globalProperties.$axios = axios;
-
-app.use(store);
-app.use(router);
-app.use(VuePaginationTw);
-app.use(ElementPlus);
-
-app.mount('#app');
-
-
+        for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+            app.component(key, component)
+        }
+  },
+})

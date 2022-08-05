@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use Inertia\Inertia;
+
 use App\Models\Product;
 use App\Models\Images;
 
@@ -12,21 +14,26 @@ use App\Http\Resources\ProductsResouce;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-	public function show(Request $request )
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
 	{
-		$product = Product::where('status', 'active')->with('images');
+		return Inertia::render('Product', []);
+	}
 
-		$product->when( isset( $request->keyword ), function ($query) use ( $request ) {
+	public function Catalogue()
+	{
+		return Inertia::render('Catalogue', []);
+	}
+
+	public function show(Request $request)
+	{
+		$product = Product::where('status', 'active')->with('category')->with('images');
+
+		$product->when(isset($request->keyword), function ($query) use ($request) {
 
 			$keyword = $request->keyword;
 
@@ -36,45 +43,22 @@ class ProductController extends Controller
 			});;
 		});
 
+		$product->when(isset($request->category_id), function ($query) use ($request) {
+
+			$category_id = $request->category_id;
+
+			return $query->where(function ($query) use ($category_id) {
+				$query->where('product.category_id', '=', $category_id);
+			});;
+		});
+
 		$product->groupBy('product.id');
 
-		return ProductsResouce::collection($product->paginate(20));
+		return ProductsResouce::collection($product->paginate(10));
 	}
 
-    public function search( Request $data )
-    {
-        $data = $data->all();
-
-		$product = Product::get( $data );
-
-		$product->select( 
-			'p.id as product_id',
-			'p.code',
-			'p.name',
-			'p.hash',
-			'p.description',
-			'p.date_and_time',
-			'c.id as category_id',
-			'c.name as category',
-			'i.path as path',
-		);
-
-        if( isset( $data['keyword'] ) )
-		{
-			$keyword = $data['keyword'];
-
-            $product->where( function( $query ) use ( $keyword ) {
-                $query->orWhere('p.name', 'LIKE', "%$keyword%")
-                    ->orWhere('p.code', 'LIKE', "%$keyword%");
-            });
-		}
-
-        return $product->groupBy('p.id')->paginate(10);
-			
-    }
-
-    public function uploadImg( Request $request )
-    {
+	public function uploadImg(Request $request)
+	{
 
 		$validate_data = ['image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'];
 
@@ -94,68 +78,63 @@ class ProductController extends Controller
 			'date_and_time.required'	=> 'Please Pick Date and Time!',
 		];
 
-		$validator = Validator::make( $request->all(), $validate_data, $messages );
+		$validator = Validator::make($request->all(), $validate_data, $messages);
 
-		if( $validator->fails() )
+		if ($validator->fails())
 			return $validator->validate();
 
-		$request->validate( $validate_data, $messages );
-    
-        $imageName = time().'.'.$request->image->extension();  
-  
-		$file_name = time().'_'.$request->image->getClientOriginalName();
+		$request->validate($validate_data, $messages);
+
+		$imageName = time() . '.' . $request->image->extension();
+
+		$file_name = time() . '_' . $request->image->getClientOriginalName();
 		$file_path = $request->file('image')->storeAs('uploads', $file_name, 'public');
 
-        $request->image->move(public_path('images'), $imageName);
-  
-		return response()->json( [ 'image_path' => $imageName ], 200 );
+		$request->image->move(public_path('images'), $imageName);
+
+		return response()->json(['image_path' => $imageName], 200);
 	}
 
-    public function AddOrUpdate( Request $data )
-    {
+	public function AddOrUpdate(Request $data)
+	{
 		$data = (array) $data->all();
-        $val = self::validateInput( $data );
+		$val = self::validateInput($data);
 
-        if( isset( $val['error'] ) )  
-            return response()->json( (array) $val, 401 );
+		if (isset($val['error']))
+			return response()->json((array) $val, 401);
 
-        if( isset( $data['hash'] ) ){
-			$results = Product::updateProduct( $data );
-			self::bulkUpdateImages( $data );
+		if (isset($data['hash'])) {
+			$results = Product::updateProduct($data);
+			self::bulkUpdateImages($data);
 
-            return response()->json( $results );
+			return response()->json($results);
+		} else {
+			$results = Product::createProduct($data);
+
+			Images::createImagesBulk($data['images'], $results['data']);
+			return response()->json($results);
 		}
-        else{
-			$results = Product::createProduct( $data );
+	}
 
-			Images::createImagesBulk( $data['images'], $results['data'] );
-            return response()->json( $results );
-
-		}
-         
-
-    }
-
-	public static function bulkUpdateImages( $product )
+	public static function bulkUpdateImages($product)
 	{
 		$results = null;
 
-		foreach ( $product['images'] as $key => $value) 
-		{	
-			
-			if( isset( $value['image_id'] ) )
-				$status = Images::updateImages( $value, $product );
-			else
-				$status = Images::createImages( $value['path'], $product );
+		foreach ($product['images'] as $key => $value) {
 
-			if( is_null( $results ) )
+			if (isset($value['image_id']))
+				$status = Images::updateImages($value, $product);
+			else
+				$status = Images::createImages($value['path'], $product);
+
+			if (is_null($results))
 				$results = $status;
 		}
 
 		return $results;
 	}
 
-    public static function validateInput( $data )
+	public static function validateInput($data)
 	{
 
 		$messages = [
@@ -176,31 +155,29 @@ class ProductController extends Controller
 			'date_and_time'	=> 'required',
 		];
 
-		$validator = Validator::make( $data, $validate_data, $messages );
+		$validator = Validator::make($data, $validate_data, $messages);
 
-		if( $validator->fails() ) 
+		if ($validator->fails())
 			return $validator->validate();
-		else 
+		else
 			return true;
-		
 	}
 
-	public static function removeProduct( Request $data )
+	public static function removeProduct(Request $data)
 	{
-        $val = self::validateRemoveProductInput( $data->all() );
+		$val = self::validateRemoveProductInput($data->all());
 
-        if( !isset( $val['error'] ) )  
-            return Product::removeProduct( $data->all() );	
-        else 
-            response()->json( (array) $val, 404 );
-
+		if (!isset($val['error']))
+			return Product::removeProduct($data->all());
+		else
+			response()->json((array) $val, 404);
 	}
 
-	public static function validateRemoveProductInput( $data )
+	public static function validateRemoveProductInput($data)
 	{
-		$validator = Validator::make( $data, ['hash' => 'required'], ['hash.required' => 'Please select cathegory'] );
+		$validator = Validator::make($data, ['hash' => 'required'], ['hash.required' => 'Please select cathegory']);
 
-		if( $validator->fails() ) {
+		if ($validator->fails()) {
 			return $validator->validate();
 		} else {
 			return true;
