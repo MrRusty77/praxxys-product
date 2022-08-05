@@ -1,94 +1,91 @@
 <template>
-    <div class="block w-full h-screen overscroll-none bg-gradient-to-b from-blue-800 to-cyan-500">
-        <Header @keywordChange="(response) => keyword = response" :searchInput=true :navTitle="navTitle"></Header>
-        <div class="w-full p-2 rounded-full">
-            <div class="w-full p-2 overflow-x-hidden rounded bg-slate-300 h-[38em] overflow-y-scroll">
-                <div class="w-full">
-                    <div class="px-3 py-2 my-2 bg-white rounded" v-for=" (product, index) in pagination.data"
-                        :key="index">
+    <div v-slot="{ keyword }">
+        {{keyword}}
+        <div class="w-full p-2 overflow-x-hidden rounded bg-slate-300 h-[38em] overflow-y-scroll">
+            <div class="w-full">
+                <div class="px-3 py-2 my-2 bg-white rounded" v-for=" (product, index) in pagination.data" :key="index">
 
-                        <div class="inline-flex w-full">
+                    <div class="inline-flex w-full">
 
-                            <div class="w-1/12 m-auto">
-                                <div class="flex items-center m-auto">
-                                    <input id="default-checkbox" type="checkbox" value=""
-                                        @change="add_to_checkout(product)"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <!-- <label for="default-checkbox"
-                                        class="ml-2 text-sm font-medium text-black dark:text-gray-300">Add to
-                                        Checkout</label> -->
-                                </div>
+                        <div class="w-1/12 m-auto">
+                            <div class="flex items-center m-auto">
+                                <input id="default-checkbox" type="checkbox" value="" @change="add_to_checkout(product)"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <!-- <label for="default-checkbox"
+                                    class="ml-2 text-sm font-medium text-black dark:text-gray-300">Add to
+                                    Checkout</label> -->
                             </div>
-
-                            <div class="w-1/12 my-auto">
-                                <img class="!h-10 mx-auto" :src="'images/' + product.image_path" alt="product image" />
-                            </div>
-
-                            <div class="inline-flex w-10/12 my-auto">
-                                <div class="inline-flex w-1/2 py-2 text-2xl">
-                                    <div class="w-1/2 text-left">
-                                        {{ product.name }}
-                                    </div>
-
-                                    <div class="w-1/2 px-2 text-right">
-                                        P {{ product.price }}
-                                    </div>
-                                </div>
-
-                                <div class="inline-flex w-1/2 py-3">
-                                    <div class="inline-flex w-1/2">
-
-                                        <el-button text @click="add(product)">
-                                            <plus-icon />
-                                        </el-button>
-
-                                        <div>
-                                            <input class="text-lg text-center bg-gray-100 rounded"
-                                                v-model="product.qty">
-                                        </div>
-
-                                        <el-button text @click="deduct(product)" :disabled="product.qty == 1">
-                                            <minus-icon />
-                                        </el-button>
-                                    </div>
-                                    <div class="w-1/2">
-                                        <el-button class="float-right" @click="remove( product, index )"
-                                            :loading="remove_loading">Remove product</el-button>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+
+                        <div class="w-1/12 my-auto">
+                            <img class="!h-10 mx-auto" :src="'images/' + product.image_path" alt="product image" />
+                        </div>
+
+                        <div class="inline-flex w-10/12 my-auto">
+                            <div class="inline-flex w-1/2 py-2 text-2xl">
+                                <div class="w-1/2 text-left">
+                                    {{ product.name }}
+                                </div>
+
+                                <div class="w-1/2 px-2 text-right">
+                                    P {{ product.price }}
+                                </div>
+                            </div>
+
+                            <div class="inline-flex w-1/2 py-3">
+                                <div class="inline-flex w-1/2">
+
+                                    <el-button text @click="add(product)">
+                                        <plus-icon />
+                                    </el-button>
+
+                                    <div>
+                                        <input class="text-lg text-center bg-gray-100 rounded" v-model="product.qty">
+                                    </div>
+
+                                    <el-button text @click="deduct(product)" :disabled="product.qty == 1">
+                                        <minus-icon />
+                                    </el-button>
+                                </div>
+                                <div class="w-1/2">
+                                    <el-button class="float-right" @click="remove( product, index )"
+                                        :loading="remove_loading">Remove product</el-button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="fixed bottom-0 w-full p-2 my-2 text-lg bg-white rounded">
-                <div class="inline-flex w-full">
-                    <div class="w-4/12">
-                        Total Items: {{this.checkout.total_items}}
-                    </div>
-                    <div class="w-4/12">
-                        Total Amount: {{ this.checkout.total_amount }}
-                    </div>
-                    <div class="w-4/12">
-                        <el-button class="w-full" type="primary" @click="open_modal" :disabled="(checkout.lenght == 0)">
-                            Go
-                            to Checkout</el-button>
-                    </div>
+        <div class="fixed bottom-0 w-full p-2 my-2 text-lg bg-white rounded">
+            <div class="inline-flex w-full">
+                <div class="w-4/12">
+                    Total Items: {{this.checkout.total_items}}
                 </div>
-
+                <div class="w-4/12">
+                    Total Amount: {{ this.checkout.total_amount }}
+                </div>
+                <div class="w-4/12">
+                    <el-button class="w-full" type="primary" @click="open_modal" :disabled="(checkout.lenght == 0)">
+                        Go
+                        to Checkout</el-button>
+                </div>
             </div>
-
-            <checkout-modal @openCheckout="( value ) => openModal = value" :openModal="openModal" :checkout="checkout">
-            </checkout-modal>
 
         </div>
+
+        <checkout-modal @openCheckout="( value ) => openModal = value" :openModal="openModal" :checkout="checkout">
+        </checkout-modal>
     </div>
+
 </template>
 
 <script>
 import Header from './Shared/Header';
+
+import Layout from './Layout';
 
 import { ElNotification } from 'element-plus'
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
@@ -97,6 +94,7 @@ import MinusIcon from 'vue-material-design-icons/Minus.vue';
 import CheckoutModal from './CheckoutModal.vue';
 
 export default {
+    layout: Layout,
     setup() {
         return {
             // v$: useVuelidate()

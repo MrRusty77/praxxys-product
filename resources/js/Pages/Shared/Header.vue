@@ -20,8 +20,6 @@ import ReceiptTextIcon from 'vue-material-design-icons/Receipt.vue';
 let direction = 'ltr';
 let side_menu = "!bg-gray-50 dark:!bg-gray-800";
 
-const user = ref(window.user ? window.user.username : '');
-
 const keyword = ref("");
 const navState = ref(false);
 
@@ -51,7 +49,7 @@ watch(() => keyword.value, () => {
                 </el-button>
             </div>
             <div class="w-3/4 p-1 text-left">
-                {{ navTitle }}
+                {{ $page.component }}
             </div>
         </div>
         <div class="w-7/12">
@@ -65,7 +63,7 @@ watch(() => keyword.value, () => {
         </div>
         <div class="flex w-3/12">
             <div class="w-3/4 p-1 text-right">
-                {{ user }}
+                {{ $page.props.auth.user.name }}
             </div>
             <div class="w-1/4">
                 <el-button type="primary" text @click="this.$inertia.get('/logout');">
